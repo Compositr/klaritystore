@@ -4,7 +4,7 @@ version: '0.2'
 allowCompoundWords: true
 dictionaryDefinitions:
   - name: project-dictionary
-    path: './.config/cspell/dictionary.txt'
+    path: './config/cspell/dictionary.txt'
     addWords: true
 dictionaries:
   - project-dictionary
@@ -18,4 +18,4 @@ dictionaries:
   - en-gb
 ignorePaths:
   - 'target/**'
-  - '.config/cspell/*.txt'
+  - 'config/cspell/*.txt'
