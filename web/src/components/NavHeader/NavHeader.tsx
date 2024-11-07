@@ -25,8 +25,8 @@ const links: LinksArray = [
 
 const NavHeader = () => {
   return (
-    <header className="w-full border-b border-b-border pb-2">
-      <div className="container flex items-center justify-center gap-1">
+    <header className="w-full border-b border-b-border pt-4 lg:pb-2">
+      <div className="container flex items-center justify-between gap-1 pb-2">
         {/* Left Side Buttons */}
         <div className="flex justify-around gap-2">
           <Button variant="outline" size="icon">
@@ -34,13 +34,13 @@ const NavHeader = () => {
           </Button>
         </div>
         {/* Logo */}
-        <div className="flex flex-1 justify-center self-center">
+        <div className="absolute left-1/2 flex flex-1 -translate-x-1/2 transform justify-center self-center">
           <Link to={routes.home()}>
             <img src={logoLightSrc} alt="logo" width={262 / 2} />
           </Link>
         </div>
         {/* Right Side Buttons */}
-        <div className="flex justify-around gap-2">
+        <div className="ml-auto flex justify-around gap-2">
           <Button variant="outline" size="icon">
             <ShoppingCart />
           </Button>
@@ -50,7 +50,7 @@ const NavHeader = () => {
         </div>
       </div>
       <nav className="container flex w-full justify-center">
-        <NavigationMenu>
+        <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
             {links.map((link) => (
               <NavigationMenuItem key={link.to}>
