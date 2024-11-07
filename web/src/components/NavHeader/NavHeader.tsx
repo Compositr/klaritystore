@@ -1,5 +1,5 @@
+import logoLightSrc from 'assets/img/logo-light.png'
 import { Menu, Search, ShoppingCart } from 'lucide-react'
-import logoLightSrc from 'public/img/logo-light.png'
 
 import { Link, routes } from '@redwoodjs/router'
 
