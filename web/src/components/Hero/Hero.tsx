@@ -1,5 +1,5 @@
 import { Button } from '../ui/Button'
-import { H1 } from '../ui/typography/H1'
+import H1 from '../ui/typography/H1'
 
 const Hero = () => {
   return (

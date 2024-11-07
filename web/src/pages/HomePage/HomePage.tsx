@@ -1,7 +1,7 @@
 import { Metadata } from '@redwoodjs/web'
 
 import Hero from 'src/components/Hero/Hero'
-import { H1 } from 'src/components/ui/typography/H1'
+import H1 from 'src/components/ui/typography/H1'
 import P from 'src/components/ui/typography/P'
 
 const HomePage = () => {
