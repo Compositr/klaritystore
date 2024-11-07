@@ -8,7 +8,7 @@ const StoreLayout = ({ children }: StoreLayoutProps) => {
   return (
     <>
       <NavHeader />
-      {children}
+      <main className="min-h-screen">{children}</main>
     </>
   )
 }
