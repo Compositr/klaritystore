@@ -49,7 +49,7 @@ const NavHeader = () => {
           </Button>
         </div>
       </div>
-      <nav className="container">
+      <nav className="container flex w-full justify-center">
         <NavigationMenu>
           <NavigationMenuList>
             {links.map((link) => (
