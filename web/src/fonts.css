@@ -7,3 +7,8 @@
   font-family: 'Lora';
   src: url('/fonts/Lora.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/Cinzel.ttf') format('truetype');
+}
