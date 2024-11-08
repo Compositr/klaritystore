@@ -7,6 +7,7 @@ type Links = Array<{
   links: Array<{ label: string; to: string }>
 }>
 const links: Links = [
+  // TODO: Add links
   {
     name: 'About Us',
     links: [{ label: 'Contact', to: '/contact' }],
