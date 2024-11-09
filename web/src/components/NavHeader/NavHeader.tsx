@@ -11,6 +11,15 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '../ui/NavigationMenu'
+import { Separator } from '../ui/Separator'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '../ui/Sheet'
+import Large from '../ui/typography/Large'
 
 type LinksArray = Array<{
   label: string
@@ -48,9 +57,28 @@ const NavHeader = () => {
           <Button variant="outline" size="icon">
             <ShoppingCart />
           </Button>
-          <Button variant="outline" size="icon" className="lg:hidden">
-            <Menu />
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>MENU</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-4 py-4">
+                {links.map((link) => (
+                  <>
+                    <Large>
+                      <Link to={link.to}>{link.label}</Link>
+                    </Large>
+                    <Separator className="last:hidden" />
+                  </>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
       <nav className="container flex w-full justify-center">
