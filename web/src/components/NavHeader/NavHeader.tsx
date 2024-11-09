@@ -67,7 +67,7 @@ const NavHeader = () => {
               <SheetHeader>
                 <SheetTitle>MENU</SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-4 py-4">
+              <div className="flex flex-col gap-4 pt-8">
                 {links.map((link) => (
                   <>
                     <Large>
