@@ -17,13 +17,17 @@ type LinksArray = Array<{
   to: string
 }>
 
-const links: LinksArray = [
-  { label: 'Diaries', to: '/' },
-  { label: 'Notepads', to: '/' },
-  { label: 'Pens and Pencils', to: '/' },
-]
-
 const NavHeader = () => {
+  // Placed in here so routes can be called
+  const links: LinksArray = [
+    { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
+    { label: 'Notepads', to: routes.category({ idString: 'notepads' }) },
+    {
+      label: 'Pens and Pencils',
+      to: routes.category({ idString: 'pens-and-pencils' }),
+    },
+  ]
+
   return (
     <header className="w-full border-b border-b-border pt-4 lg:pb-2">
       <div className="container flex items-center justify-between gap-1 pb-2">
