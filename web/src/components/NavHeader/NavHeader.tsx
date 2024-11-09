@@ -29,7 +29,7 @@ const NavHeader = () => {
   ]
 
   return (
-    <header className="w-full border-b border-b-border pt-4 lg:pb-2">
+    <header className="w-full border-b border-b-border pb-2 pt-4">
       <div className="container flex items-center justify-between gap-1 pb-2">
         {/* Left Side Buttons */}
         <div className="flex justify-around gap-2">
