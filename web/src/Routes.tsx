@@ -16,7 +16,9 @@ const Routes = () => {
     <Router>
       <Set wrap={StoreLayout}>
         <Route path="/" page={HomePage} name="home" prerender />
+        <Route path="/category/{idString}" page={CategoryPage} name="category" />
       </Set>
+
       <Route notfound page={NotFoundPage} />
     </Router>
   )
