@@ -58,11 +58,12 @@ const NavHeader = () => {
           <NavigationMenuList>
             {links.map((link) => (
               <NavigationMenuItem key={link.to}>
-                <Link to={link.to}>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {link.label}
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  className={navigationMenuTriggerStyle()}
+                  asChild
+                >
+                  <Link to={link.to}>{link.label}</Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
