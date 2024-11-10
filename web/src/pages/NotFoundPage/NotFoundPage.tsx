@@ -1,9 +1,3 @@
-export default () => (
-  <main>
-    <section>
-      <h1>
-        <span>404 Page Not Found</span>
-      </h1>
-    </section>
-  </main>
-)
+import NotFound from 'src/components/NotFound/NotFound'
+
+export default () => <NotFound />
