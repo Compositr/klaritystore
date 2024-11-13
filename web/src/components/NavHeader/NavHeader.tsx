@@ -6,6 +6,8 @@ import { Menu, Search, ShoppingCart, User } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
+import { useAuth } from 'src/auth'
+
 import { Button } from '../ui/Button'
 import {
   NavigationMenu,
@@ -32,6 +34,8 @@ type LinksArray = Array<{
 }>
 
 const NavHeader = () => {
+  const { isAuthenticated } = useAuth()
+
   // Placed in here so routes can be called
   const links: LinksArray = [
     { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
@@ -68,15 +72,23 @@ const NavHeader = () => {
             </PopoverTrigger>
             <PopoverContent>
               <div className="flex flex-col items-center justify-center">
-                <Large>You&apos;re logged out!</Large>
-                <Small>
-                  Login or sign up to get exclusive deals and personalise your
-                  experience
-                </Small>
+                {!isAuthenticated && (
+                  <>
+                    <Large>You&apos;re logged out!</Large>
+                    <Small>
+                      Login or sign up to get exclusive deals and personalise
+                      your experience
+                    </Small>
+                  </>
+                )}
               </div>
               <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
-                <Button variant="link">Login</Button>
-                <Button variant="link">Sign Up</Button>
+                {!isAuthenticated && (
+                  <>
+                    <Button variant="link">Login</Button>
+                    <Button variant="link">Sign Up</Button>
+                  </>
+                )}
               </div>
             </PopoverContent>
           </Popover>
