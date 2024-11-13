@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import logoLightSrc from 'assets/img/logo-light.png'
 import { Menu, Search, ShoppingCart, User } from 'lucide-react'
@@ -93,13 +95,13 @@ const NavHeader = () => {
               </SheetHeader>
               <div className="flex h-full flex-col gap-4 py-8">
                 {links.map((link) => (
-                  <>
+                  <React.Fragment key={link.to}>
                     {/* TODO: Close popover on nav */}
                     <Large>
                       <Link to={link.to}>{link.label}</Link>
                     </Large>
                     <Separator className="last:hidden" />
-                  </>
+                  </React.Fragment>
                 ))}
                 <div className="flex flex-1 flex-wrap items-end justify-center gap-4">
                   <Button size="lg">Login</Button>
@@ -114,7 +116,7 @@ const NavHeader = () => {
         <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
             {links.map((link) => (
-              <NavigationMenuItem key={link.to}>
+              <NavigationMenuItem key={`mob-${link.to}`}>
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
                   asChild
