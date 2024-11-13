@@ -1,5 +1,6 @@
+import { PopoverTrigger } from '@radix-ui/react-popover'
 import logoLightSrc from 'assets/img/logo-light.png'
-import { Menu, Search, ShoppingCart } from 'lucide-react'
+import { Menu, Search, ShoppingCart, User } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
@@ -11,6 +12,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '../ui/NavigationMenu'
+import { Popover, PopoverContent } from '../ui/Popover'
 import { Separator } from '../ui/Separator'
 import {
   Sheet,
@@ -20,6 +22,7 @@ import {
   SheetTrigger,
 } from '../ui/Sheet'
 import Large from '../ui/typography/Large'
+import Small from '../ui/typography/Small'
 
 type LinksArray = Array<{
   label: string
@@ -54,6 +57,27 @@ const NavHeader = () => {
         </div>
         {/* Right Side Buttons */}
         <div className="ml-auto flex justify-around gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              {/* lg:block breaks it */}
+              <Button variant="outline" size="icon" className="hidden lg:flex">
+                <User />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="flex flex-col items-center justify-center">
+                <Large>You&apos;re logged out!</Large>
+                <Small>
+                  Login or sign up to get exclusive deals and personalise your
+                  experience
+                </Small>
+              </div>
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                <Button variant="link">Login</Button>
+                <Button variant="link">Sign Up</Button>
+              </div>
+            </PopoverContent>
+          </Popover>
           <Button variant="outline" size="icon">
             <ShoppingCart />
           </Button>
@@ -67,15 +91,20 @@ const NavHeader = () => {
               <SheetHeader>
                 <SheetTitle>MENU</SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-4 pt-8">
+              <div className="flex h-full flex-col gap-4 py-8">
                 {links.map((link) => (
                   <>
+                    {/* TODO: Close popover on nav */}
                     <Large>
                       <Link to={link.to}>{link.label}</Link>
                     </Large>
                     <Separator className="last:hidden" />
                   </>
                 ))}
+                <div className="flex flex-1 flex-wrap items-end justify-center gap-4">
+                  <Button size="lg">Login</Button>
+                  <Button size="lg">Sign Up</Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>
