@@ -11,6 +11,7 @@ import type {
 
 import NotFound from 'src/components/NotFound/NotFound'
 
+import CategoryPageBreadcrumb from '../CategoryPageBreadcrumb/CategoryPageBreadcrumb'
 import { Input } from '../ui/Input'
 import { Label } from '../ui/Label'
 import {
@@ -66,6 +67,9 @@ export const Success = ({
           </div>
         </div>
         <div className="flex-1 p-16"></div>
+      </div>
+      <div className="container mt-4">
+        <CategoryPageBreadcrumb name={category.name} />
       </div>
       <div className="container mt-4 grid grid-cols-4 gap-8">
         {/* Left Filter Options */}
