@@ -21,6 +21,7 @@ const Routes = () => {
       <Set wrap={StoreLayout}>
         <Route path="/" page={HomePage} name="home" prerender />
         <Route path="/category/{idString}" page={CategoryPage} name="category" />
+        <Route path="/product/{idInt:Int}" page={ProductPage} name="product" />
       </Set>
 
       <PrivateSet unauthenticated="home" wrap={AdminLayout} roles={'Employee'}>

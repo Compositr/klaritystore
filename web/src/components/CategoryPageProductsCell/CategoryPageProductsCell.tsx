@@ -172,7 +172,7 @@ export const Success = ({
         {/* Products */}
         <div className="col-span-4 md:col-span-3">
           <P>Showing {filtered.length} products</P>
-          <div className="mt-4 grid grid-cols-3 gap-8">
+          <div className="mt-4 grid grid-cols-2 gap-8 md:grid-cols-3">
             {filtered.map((f) => (
               <ProductCard product={f} key={f.idInt} />
             ))}
