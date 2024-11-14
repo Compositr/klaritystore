@@ -164,7 +164,7 @@ export const handler = async (
     // `id` is whatever column you use to uniquely identify a user (probably
     // something like `id` or `userId` or even `email`)
     authFields: {
-      id: 'id',
+      id: 'idString',
       username: 'email',
       hashedPassword: 'hashedPassword',
       salt: 'salt',
@@ -176,7 +176,7 @@ export const handler = async (
     // client when invoking a handler that returns a user (like forgotPassword
     // and signup). This list should be as small as possible to be sure not to
     // leak any sensitive information to the client.
-    allowedUserFields: ['id', 'email', 'firstName', 'lastName'],
+    allowedUserFields: ['idString', 'email', 'firstName', 'lastName'],
 
     // Specifies attributes on the cookie that dbAuth sets in order to remember
     // who is logged in. See https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies
