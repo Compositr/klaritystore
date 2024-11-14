@@ -15,11 +15,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div>
       <div className="overflow-clip">
-        <img
-          src="https://placehold.co/500"
-          className="w-full"
-          alt={product.name}
-        />
+        <Link
+          to={routes.product({
+            idInt: product.idInt,
+          })}
+        >
+          <img
+            src="https://placehold.co/500"
+            className="w-full"
+            alt={product.name}
+          />
+        </Link>
       </div>
       <div className="mt-2">
         <Small>
