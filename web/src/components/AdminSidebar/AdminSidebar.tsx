@@ -1,8 +1,9 @@
-import { ShoppingBag, Store, Tags } from 'lucide-react'
+import { Home, ShoppingBag, Store, Tags } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import AdminSidebarNav from '../AdminSidebarNav/AdminSidebarNav'
+import AdminSidebarSecondaryNav from '../AdminSidebarSecondaryNav/AdminSidebarSecondaryNav'
 import AdminSidebarUser from '../AdminSidebarUser/AdminSidebarUser'
 import {
   Sidebar,
@@ -40,7 +41,7 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
             {
               icon: Tags,
               title: 'Products',
-              url: '/admin/products',
+              url: routes.adminProducts(),
               items: [
                 {
                   title: 'New Product',
@@ -52,6 +53,16 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               icon: ShoppingBag,
               title: 'Orders',
               url: '/admin/orders',
+            },
+          ]}
+        />
+        <AdminSidebarSecondaryNav
+          className="mt-auto"
+          items={[
+            {
+              icon: Home,
+              title: 'Storefront',
+              url: routes.home(),
             },
           ]}
         />
