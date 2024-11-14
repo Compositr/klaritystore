@@ -26,10 +26,10 @@ export const schema = gql`
 
   type Mutation {
     createCategory(input: CreateCategoryInput!): Category!
-      @requireAuth(perms: ["EditStore"])
+      @requireAuth(roles: ["EditStore"])
     updateCategory(idString: String!, input: UpdateCategoryInput!): Category!
-      @requireAuth(perms: ["EditStore"])
+      @requireAuth(roles: ["EditStore"])
     deleteCategory(idString: String!): Category!
-      @requireAuth(perms: ["EditStore"])
+      @requireAuth(roles: ["EditStore"])
   }
 `

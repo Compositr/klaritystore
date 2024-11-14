@@ -44,7 +44,7 @@ model User {
   firstName String
   lastName  String
 
-  permissions Permission[] @default([Customer])
+  roles Role[] @default([Customer])
 
   // dbAuth fields
   hashedPassword      String
@@ -56,16 +56,16 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-enum Permission {
+enum Role {
   // Skips all permission checks
   Administrator
 
-  // Can edit the store (e.g. categories, products, orders etc.)
-  // implicity has ReadStore permission
-  EditStore
-  // Can view backend with items, orders, data etc.
-  // but cannot edit anything
-  ReadStore
+  // Can view and edit the store's settings and users
+  // can also view analytics
+  Manager
+
+  // Can view and edit the store's products, categories, and orders
+  Employee
 
   // Akin to no permissions (i.e. normal user)
   Customer

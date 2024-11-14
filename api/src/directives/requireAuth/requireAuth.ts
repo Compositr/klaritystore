@@ -1,4 +1,4 @@
-import { Permission } from '@prisma/client'
+import { Role } from '@prisma/client'
 import gql from 'graphql-tag'
 
 import type { ValidatorDirectiveFunc } from '@redwoodjs/graphql-server'
@@ -9,16 +9,16 @@ import { requireAuth as applicationRequireAuth } from 'src/lib/auth'
 export const schema = gql`
   """
   Use to check whether or not a user is authenticated and is associated
-  with an optional set of perms.
+  with an optional set of roles.
   """
-  directive @requireAuth(perms: [String]) on FIELD_DEFINITION
+  directive @requireAuth(roles: [String]) on FIELD_DEFINITION
 `
 
-type RequireAuthValidate = ValidatorDirectiveFunc<{ perms?: Permission[] }>
+type RequireAuthValidate = ValidatorDirectiveFunc<{ roles?: Role[] }>
 
 const validate: RequireAuthValidate = ({ directiveArgs }) => {
-  const { perms } = directiveArgs
-  applicationRequireAuth({ perms })
+  const { roles } = directiveArgs
+  applicationRequireAuth({ roles })
 }
 
 const requireAuth = createValidatorDirective(schema, validate)

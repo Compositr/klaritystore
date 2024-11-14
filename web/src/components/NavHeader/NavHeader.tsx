@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import logoLightSrc from 'assets/img/logo-light.png'
-import { LogOut, Menu, Search, ShoppingCart, User } from 'lucide-react'
+import { LogOut, Menu, Search, ShoppingCart, Store, User } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
@@ -45,7 +45,7 @@ const NavHeader = () => {
   const [popoverOpen, setPopoverOpen] = React.useState(false)
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
 
-  const { isAuthenticated, currentUser, logOut } = useAuth()
+  const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()
   // Placed in here so routes can be called
   const links: LinksArray = [
     { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
@@ -105,6 +105,16 @@ const NavHeader = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+                {hasRole('Administrator') && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to="#">
+                        <Store /> Admin
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
                 <DropdownMenuItem onClick={() => logOut()}>
                   <LogOut />
                   <span>Log Out</span>
