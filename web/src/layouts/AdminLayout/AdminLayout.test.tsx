@@ -7,6 +7,19 @@ import AdminLayout from './AdminLayout'
 
 describe('AdminLayout', () => {
   it('renders successfully', () => {
+    // Mock window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => {
+      return {
+        matches: false,
+        media: query,
+        onchange: null,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      }
+    })
     expect(() => {
       render(<AdminLayout />)
     }).not.toThrow()

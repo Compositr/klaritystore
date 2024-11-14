@@ -8,7 +8,15 @@ import AdminSidebarNav from './AdminSidebarNav'
 describe('AdminSidebarNav', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<AdminSidebarNav />)
+      mockCurrentUser({
+        email: 'example@example.org',
+        firstName: 'Example',
+        idString: '42',
+        lastName: 'User',
+        roles: ['Administrator'],
+      })
+
+      render(<AdminSidebarNav items={[]} />)
     }).not.toThrow()
   })
 })

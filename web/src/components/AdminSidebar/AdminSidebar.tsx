@@ -1,11 +1,13 @@
-import { Store, Tags } from 'lucide-react'
+import { ShoppingBag, Store, Tags } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import AdminSidebarNav from '../AdminSidebarNav/AdminSidebarNav'
+import AdminSidebarUser from '../AdminSidebarUser/AdminSidebarUser'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -46,9 +48,17 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
                 },
               ],
             },
+            {
+              icon: ShoppingBag,
+              title: 'Orders',
+              url: '/admin/orders',
+            },
           ]}
         />
       </SidebarContent>
+      <SidebarFooter>
+        <AdminSidebarUser />
+      </SidebarFooter>
     </Sidebar>
   )
 }

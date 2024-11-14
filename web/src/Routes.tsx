@@ -25,7 +25,7 @@ const Routes = () => {
 
       <PrivateSet unauthenticated="home" wrap={AdminLayout} roles={'Employee'}>
         <Route path="/admin" page={AdminPage} name="admin" />
-        <Route path="/admin/products" page={AdminPage} name="adminProducts" />
+        <Route path="/admin/products" page={AdminProductsPage} name="adminProducts" />
       </PrivateSet>
 
       <Route notfound page={NotFoundPage} />
