@@ -2,13 +2,21 @@ import * as React from 'react'
 
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import logoLightSrc from 'assets/img/logo-light.png'
-import { Menu, Search, ShoppingCart, User } from 'lucide-react'
+import { LogOut, Menu, Search, ShoppingCart, User } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
 import { Button } from '../ui/Button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/DropdownMenu'
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -34,6 +42,9 @@ type LinksArray = Array<{
 }>
 
 const NavHeader = () => {
+  const [popoverOpen, setPopoverOpen] = React.useState(false)
+  const [dropdownOpen, setDropdownOpen] = React.useState(false)
+
   const { isAuthenticated, currentUser, logOut } = useAuth()
   // Placed in here so routes can be called
   const links: LinksArray = [
@@ -62,50 +73,59 @@ const NavHeader = () => {
         </div>
         {/* Right Side Buttons */}
         <div className="ml-auto flex justify-around gap-2">
-          <Popover>
-            <PopoverTrigger asChild>
-              {/* lg:block breaks it */}
-              <Button variant="outline" size="icon" className="hidden lg:flex">
-                <User />
-              </Button>
-            </PopoverTrigger>
+          <Popover
+            open={popoverOpen}
+            onOpenChange={(o) => setPopoverOpen(!isAuthenticated && o)}
+          >
+            <DropdownMenu
+              open={dropdownOpen}
+              onOpenChange={(o) => setDropdownOpen(isAuthenticated && o)}
+            >
+              <PopoverTrigger asChild>
+                <DropdownMenuTrigger asChild>
+                  {/* lg:block breaks it */}
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="hidden lg:flex"
+                  >
+                    <User />
+                  </Button>
+                </DropdownMenuTrigger>
+              </PopoverTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  Hello, {currentUser?.firstName}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  {/* TODO: Account page */}
+                  <Link to="#">
+                    <User /> Account
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => logOut()}>
+                  <LogOut />
+                  <span>Log Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <PopoverContent>
               <div className="flex flex-col items-center justify-center">
-                {!isAuthenticated && (
-                  <>
-                    <Large>You&apos;re logged out!</Large>
-                    <Small>
-                      Login or sign up to get exclusive deals and personalise
-                      your experience
-                    </Small>
-                  </>
-                )}
-                {isAuthenticated && (
-                  <>
-                    <Large>Hello, {currentUser.firstName}</Large>
-                  </>
-                )}
+                <Large>You&apos;re logged out!</Large>
+                <Small>
+                  Login or sign up to get exclusive deals and personalise your
+                  experience
+                </Small>
               </div>
               <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
-                {!isAuthenticated && (
-                  <>
-                    <Button variant="link" asChild>
-                      <Link to={routes.login() + '?tab=login'}>Login</Link>
-                    </Button>
-                    <Button variant="link" asChild>
-                      <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
-                    </Button>
-                  </>
-                )}
-                {isAuthenticated && (
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => logOut()}
-                  >
-                    Log Out
-                  </Button>
-                )}
+                <Button variant="link" asChild>
+                  <Link to={routes.login() + '?tab=login'}>Login</Link>
+                </Button>
+                <Button variant="link" asChild>
+                  <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
+                </Button>
               </div>
             </PopoverContent>
           </Popover>
@@ -133,12 +153,16 @@ const NavHeader = () => {
                   </React.Fragment>
                 ))}
                 <div className="flex flex-1 flex-wrap items-end justify-center gap-4">
-                  <Button size="lg" asChild>
-                    <Link to={routes.login() + '?tab=login'}>Login</Link>
-                  </Button>
-                  <Button size="lg" asChild>
-                    <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
-                  </Button>
+                  {!isAuthenticated && (
+                    <>
+                      <Button size="lg" asChild>
+                        <Link to={routes.login() + '?tab=login'}>Login</Link>
+                      </Button>
+                      <Button size="lg" asChild>
+                        <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
