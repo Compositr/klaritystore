@@ -28,6 +28,18 @@ export default async () => {
         categoryId: category.idString,
       },
     })
+
+    await db.user.create({
+      data: {
+        email: 'johndoe@example.org',
+        firstName: 'John',
+        lastName: 'Doe',
+        // Password: 'password'
+        hashedPassword:
+          '8dee09cdf641d21ccb01e1e38279881055ee939ad830de045f719eff1d0c6778|16384|8|1',
+        salt: '3e85c4f5a9f40cc762bef6e5808c060464a1d72e86b3d7c99867b51ee135406b',
+      },
+    })
   } catch (error) {
     console.error(error)
   }
