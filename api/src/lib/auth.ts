@@ -30,12 +30,12 @@ export const cookieName = 'session_%port%'
  * seen if someone were to open the Web Inspector in their browser.
  */
 export const getCurrentUser = async (session: Decoded) => {
-  if (!session || typeof session.id !== 'string') {
+  if (!session || typeof session.idString !== 'string') {
     throw new Error('Invalid session')
   }
 
   return await db.user.findUnique({
-    where: { idString: session.id },
+    where: { idString: session.idString },
     select: { idString: true, email: true, firstName: true, lastName: true },
   })
 }
