@@ -59,14 +59,20 @@ export const Success = ({
   const [maxPrice, setMaxPrice] = React.useState(defaultMaxPrice)
   return (
     <>
-      <div className="flex h-1/3 flex-col-reverse border-b md:flex-row">
+      <div className="flex max-h-[33vh] flex-col-reverse overflow-clip border-b md:flex-row">
         <div className="flex flex-1 items-center p-2 max-sm:border-t md:justify-center md:border-r md:p-16">
           <div>
             <H3>{category.name}</H3>
             <span className="mt-1 inline-block">{category.description}</span>
           </div>
         </div>
-        <div className="flex-1 p-16"></div>
+        <div className="flex-1">
+          <img
+            src="https://placehold.co/400x200?text=placeholder"
+            className="w-full"
+            alt="Diaries"
+          />
+        </div>
       </div>
       <div className="container mt-4">
         <CategoryPageBreadcrumb name={category.name} />
