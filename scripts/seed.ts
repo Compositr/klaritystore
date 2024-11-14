@@ -19,14 +19,14 @@ export default async () => {
       },
     })
 
-    await db.product.create({
-      data: {
-        name: 'Product 1',
-        description: 'Description of Product 1',
-        specifications: 'Specifications of Product 1',
-        price: 100.51,
+    await db.product.createMany({
+      data: new Array(30).fill(null).map((_, i) => ({
+        name: `Product ${i + 1}`,
+        description: `Description of Product ${i + 1}`,
+        specifications: `Specifications of Product ${i + 1}`,
+        price: 100 + i * 10,
         categoryId: category.idString,
-      },
+      })),
     })
 
     await db.user.create({
@@ -38,7 +38,7 @@ export default async () => {
         hashedPassword:
           '8dee09cdf641d21ccb01e1e38279881055ee939ad830de045f719eff1d0c6778|16384|8|1',
         salt: '3e85c4f5a9f40cc762bef6e5808c060464a1d72e86b3d7c99867b51ee135406b',
-        roles: ['Administrator'],
+        roles: ['Administrator', 'Employee'],
       },
     })
   } catch (error) {
