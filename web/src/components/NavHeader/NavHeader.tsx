@@ -34,8 +34,7 @@ type LinksArray = Array<{
 }>
 
 const NavHeader = () => {
-  const { isAuthenticated } = useAuth()
-
+  const { isAuthenticated, logOut } = useAuth()
   // Placed in here so routes can be called
   const links: LinksArray = [
     { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
@@ -85,9 +84,18 @@ const NavHeader = () => {
               <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
                 {!isAuthenticated && (
                   <>
-                    <Button variant="link">Login</Button>
-                    <Button variant="link">Sign Up</Button>
+                    <Button variant="link" asChild>
+                      <Link to={routes.login() + '?tab=login'}>Login</Link>
+                    </Button>
+                    <Button variant="link" asChild>
+                      <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
+                    </Button>
                   </>
+                )}
+                {isAuthenticated && (
+                  <Button variant="destructive" onClick={() => logOut()}>
+                    Log Out
+                  </Button>
                 )}
               </div>
             </PopoverContent>
@@ -116,8 +124,12 @@ const NavHeader = () => {
                   </React.Fragment>
                 ))}
                 <div className="flex flex-1 flex-wrap items-end justify-center gap-4">
-                  <Button size="lg">Login</Button>
-                  <Button size="lg">Sign Up</Button>
+                  <Button size="lg" asChild>
+                    <Link to={routes.login() + '?tab=login'}>Login</Link>
+                  </Button>
+                  <Button size="lg" asChild>
+                    <Link to={routes.login() + '?tab=signup'}>Sign Up</Link>
+                  </Button>
                 </div>
               </div>
             </SheetContent>
