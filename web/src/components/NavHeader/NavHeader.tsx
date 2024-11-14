@@ -173,6 +173,28 @@ const NavHeader = () => {
                       </Button>
                     </>
                   )}
+                  {isAuthenticated && (
+                    <>
+                      <div className="flex w-full flex-col items-center">
+                        <Separator className="mb-6" />
+                        <div className="grid grid-cols-2 gap-2">
+                          <Button asChild size="lg">
+                            <Link to="#">
+                              <User /> Account
+                            </Link>
+                          </Button>
+                          <Button
+                            size="lg"
+                            variant="destructive"
+                            onClick={() => logOut()}
+                          >
+                            <LogOut />
+                            <span>Log Out</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
