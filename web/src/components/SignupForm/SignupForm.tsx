@@ -63,12 +63,12 @@ const SignupForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 md:space-y-4"
       >
-        <div className="flex gap-4">
+        <div className="flex w-full gap-4">
           <FormField
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
                   <Input
@@ -86,7 +86,7 @@ const SignupForm = () => {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
                   <Input
