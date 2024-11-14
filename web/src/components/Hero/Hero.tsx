@@ -1,3 +1,5 @@
+import { Link, routes } from '@redwoodjs/router'
+
 import { Button } from '../ui/Button'
 import H1 from '../ui/typography/H1'
 
@@ -16,8 +18,14 @@ const Hero = () => {
       <div className="absolute bottom-0 z-10 w-full p-8">
         <div className="container text-white">
           <H1>Klarity Collection</H1>
-          <Button className="mt-8" variant="secondary" size="lg">
-            Shop Now
+          <Button asChild className="mt-8" variant="secondary" size="lg">
+            <Link
+              to={routes.category({
+                idString: 'diaries',
+              })}
+            >
+              Shop Now
+            </Link>
           </Button>
         </div>
       </div>
