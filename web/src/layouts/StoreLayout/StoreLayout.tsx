@@ -9,7 +9,7 @@ const StoreLayout = ({ children }: StoreLayoutProps) => {
   return (
     <>
       <NavHeader />
-      <main className="min-h-screen">{children}</main>
+      <main className="mb-8 min-h-screen">{children}</main>
       <Footer />
     </>
   )
