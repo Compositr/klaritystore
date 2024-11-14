@@ -1,6 +1,6 @@
 import { ChevronRight, type LucideIcon } from 'lucide-react'
 
-import { Link } from '@redwoodjs/router'
+import { Link, useMatch } from '@redwoodjs/router'
 
 import {
   Collapsible,
@@ -42,12 +42,13 @@ const AdminSidebarNav = ({ items }: AdminSidebarNavProps) => {
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title}>
-                <Link to={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
+              <ActiveSidebarMenuButtonLink
+                url={item.url}
+                title={item.title}
+                Icon={item.icon}
+                asChild
+                tooltip={item.title}
+              />
               {item.items?.length ? (
                 <>
                   <CollapsibleTrigger asChild>
@@ -76,6 +77,19 @@ const AdminSidebarNav = ({ items }: AdminSidebarNavProps) => {
         ))}
       </SidebarMenu>
     </SidebarGroup>
+  )
+}
+
+const ActiveSidebarMenuButtonLink = ({ url, title, Icon, ...props }) => {
+  const routerMatcher = useMatch(url)
+
+  return (
+    <SidebarMenuButton asChild {...props} isActive={routerMatcher.match}>
+      <Link to={url}>
+        <Icon />
+        <span>{title}</span>
+      </Link>
+    </SidebarMenuButton>
   )
 }
 
