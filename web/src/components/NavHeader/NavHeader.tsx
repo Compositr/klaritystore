@@ -105,10 +105,10 @@ const NavHeader = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                {hasRole('Administrator') && (
+                {hasRole('Employee') && (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link to="#">
+                      <Link to={routes.admin()}>
                         <Store /> Admin
                       </Link>
                     </DropdownMenuItem>
