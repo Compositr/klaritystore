@@ -34,7 +34,7 @@ type LinksArray = Array<{
 }>
 
 const NavHeader = () => {
-  const { isAuthenticated, logOut } = useAuth()
+  const { isAuthenticated, currentUser, logOut } = useAuth()
   // Placed in here so routes can be called
   const links: LinksArray = [
     { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
@@ -80,6 +80,11 @@ const NavHeader = () => {
                     </Small>
                   </>
                 )}
+                {isAuthenticated && (
+                  <>
+                    <Large>Hello, {currentUser.firstName}</Large>
+                  </>
+                )}
               </div>
               <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
                 {!isAuthenticated && (
@@ -93,7 +98,11 @@ const NavHeader = () => {
                   </>
                 )}
                 {isAuthenticated && (
-                  <Button variant="destructive" onClick={() => logOut()}>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => logOut()}
+                  >
                     Log Out
                   </Button>
                 )}
