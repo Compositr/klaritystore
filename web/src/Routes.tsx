@@ -15,6 +15,8 @@ import StoreLayout from './layouts/StoreLayout/StoreLayout'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Route path="/login" page={AuthPage} name="login" />
+
       <Set wrap={StoreLayout}>
         <Route path="/" page={HomePage} name="home" prerender />
         <Route path="/category/{idString}" page={CategoryPage} name="category" />
