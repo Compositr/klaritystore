@@ -1,3 +1,5 @@
+import { Permission } from '@prisma/client'
+
 import type { Decoded } from '@redwoodjs/api'
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
@@ -36,7 +38,13 @@ export const getCurrentUser = async (session: Decoded) => {
 
   return await db.user.findUnique({
     where: { idString: session.idString },
-    select: { idString: true, email: true, firstName: true, lastName: true },
+    select: {
+      idString: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      permissions: true,
+    },
   })
 }
 
@@ -50,49 +58,42 @@ export const isAuthenticated = (): boolean => {
 }
 
 /**
- * When checking role membership, roles can be a single value, a list, or none.
- * You can use Prisma enums too (if you're using them for roles), just import your enum type from `@prisma/client`
+ * If an Array of permissions is provided, checks if the currentUser has every permission rather than any one in the Array.
+ *
+ * Users with the 'Administrator' permission bypass all checks.
  */
-type AllowedRoles = string | string[] | undefined
+type PermissionsRequired = Permission | Permission[] | undefined
 
 /**
- * Checks if the currentUser is authenticated (and assigned one of the given roles)
+ * Checks if the currentUser is authenticated (and has the given permissions)
  *
- * @param roles: {@link AllowedRoles} - Checks if the currentUser is assigned one of these roles
+ * @param perms: {@link PermissionsRequired} - Checks if the currentUser has these permissions
  *
- * @returns {boolean} - Returns true if the currentUser is logged in and assigned one of the given roles,
- * or when no roles are provided to check against. Otherwise returns false.
+ * @returns {boolean} - Returns true if the currentUser is logged in and has the given permissions,
+ * or when no permissions are provided to check against. Otherwise returns false.
  */
-export const hasRole = (roles: AllowedRoles): boolean => {
-  if (!isAuthenticated()) {
-    return false
-  }
+export const hasPermission = (perms: PermissionsRequired): boolean => {
+  if (!isAuthenticated()) return false
 
-  const currentUserRoles = context.currentUser?.roles
+  const currentUserPerms = context.currentUser?.permissions
+  const isAdmin = currentUserPerms.includes('Administrator')
 
-  if (typeof roles === 'string') {
-    if (typeof currentUserRoles === 'string') {
-      // roles to check is a string, currentUser.roles is a string
-      return currentUserRoles === roles
-    } else if (Array.isArray(currentUserRoles)) {
-      // roles to check is a string, currentUser.roles is an array
-      return currentUserRoles?.some((allowedRole) => roles === allowedRole)
+  if (!currentUserPerms?.length) return false
+
+  if (typeof perms === 'string') {
+    if (currentUserPerms.includes(perms) || isAdmin) {
+      return true
     }
   }
 
-  if (Array.isArray(roles)) {
-    if (Array.isArray(currentUserRoles)) {
-      // roles to check is an array, currentUser.roles is an array
-      return currentUserRoles?.some((allowedRole) =>
-        roles.includes(allowedRole)
-      )
-    } else if (typeof currentUserRoles === 'string') {
-      // roles to check is an array, currentUser.roles is a string
-      return roles.some((allowedRole) => currentUserRoles === allowedRole)
+  if (Array.isArray(perms)) {
+    // Check if all permissions are present
+    if (perms.every((perm) => currentUserPerms.includes(perm)) || isAdmin) {
+      return true
     }
   }
 
-  // roles not found
+  // else permissions not found, return false
   return false
 }
 
@@ -101,7 +102,7 @@ export const hasRole = (roles: AllowedRoles): boolean => {
  * whether or not they are assigned a role, and optionally raise an
  * error if they're not.
  *
- * @param roles: {@link AllowedRoles} - When checking role membership, these roles grant access.
+ * @param perms: {@link PermissionsRequired} - When checking permissions, these are the required perms
  *
  * @returns - If the currentUser is authenticated (and assigned one of the given roles)
  *
@@ -110,12 +111,14 @@ export const hasRole = (roles: AllowedRoles): boolean => {
  *
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
-export const requireAuth = ({ roles }: { roles?: AllowedRoles } = {}) => {
+export const requireAuth = ({
+  perms,
+}: { perms?: PermissionsRequired } = {}) => {
   if (!isAuthenticated()) {
     throw new AuthenticationError("You don't have permission to do that.")
   }
 
-  if (roles && !hasRole(roles)) {
+  if (perms && !hasPermission(perms)) {
     throw new ForbiddenError("You don't have access to do that.")
   }
 }
