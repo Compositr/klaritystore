@@ -67,7 +67,7 @@ export const handler = async (
 
     errors: {
       usernameOrPasswordMissing: 'Both email and password are required',
-      usernameNotFound: 'Email ${username} not found',
+      usernameNotFound: 'Email or password is incorrect',
       // For security reasons you may want to make this the same as the
       // usernameNotFound error so that a malicious user can't use the error
       // to narrow down if it's the username or password that's incorrect
