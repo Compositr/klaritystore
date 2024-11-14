@@ -72,23 +72,24 @@ type RolesRequired = Role | Role[] | undefined
  * @returns {boolean} - Returns true if the currentUser is logged in and has the given roles,
  * or when no roles are provided to check against. Otherwise returns false.
  */
-export const hasPermission = (roles: RolesRequired): boolean => {
+export const hasRole = (roles: RolesRequired): boolean => {
   if (!isAuthenticated()) return false
 
   const currentUserRoles = context.currentUser?.roles
   const isAdmin = currentUserRoles.includes('Administrator')
+  if (isAdmin) return true
 
   if (!currentUserRoles?.length) return false
 
   if (typeof roles === 'string') {
-    if (currentUserRoles.includes(roles) || isAdmin) {
+    if (currentUserRoles.includes(roles)) {
       return true
     }
   }
 
   if (Array.isArray(roles)) {
     // Check if all permissions are present
-    if (roles.some((role) => currentUserRoles.includes(role)) || isAdmin) {
+    if (roles.some((role) => currentUserRoles.includes(role))) {
       return true
     }
   }
@@ -116,7 +117,7 @@ export const requireAuth = ({ roles }: { roles?: RolesRequired } = {}) => {
     throw new AuthenticationError("You don't have permission to do that.")
   }
 
-  if (roles && !hasPermission(roles)) {
+  if (roles && !hasRole(roles)) {
     throw new ForbiddenError("You don't have access to do that.")
   }
 }
