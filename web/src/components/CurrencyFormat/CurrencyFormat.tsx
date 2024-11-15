@@ -4,14 +4,11 @@ interface CurrencyFormatProps {
 
 const CurrencyFormat = ({ value }: CurrencyFormatProps) => {
   const locale = navigator.language ?? 'en-AU'
-  return (
-    <span>
-      {value.toLocaleString(locale, {
-        style: 'currency',
-        currency: 'AUD',
-      })}
-    </span>
-  )
+  const formatter = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: 'AUD',
+  })
+  return <span>{formatter.format(value)}</span>
 }
 
 export default CurrencyFormat
