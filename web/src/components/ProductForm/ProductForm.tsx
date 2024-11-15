@@ -114,13 +114,17 @@ const ProductForm = () => {
         <div className="mb-2">
           <H3>Product Preview</H3>
         </div>
-        <ProductCard
-          product={{
-            idInt: 1,
-            name: form.getValues().name ?? '...',
-            price: form.getValues().price ?? 0,
-          }}
-        />
+        <div className="md:grid md:grid-cols-2">
+          <div className="col-span-1 rounded-lg border p-8">
+            <ProductCard
+              product={{
+                idInt: 1,
+                name: form.getValues().name ?? 'Product Name',
+                price: form.getValues().price ?? 0,
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
