@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/Select'
+import { Skeleton } from '../ui/Skeleton'
 import { Slider } from '../ui/Slider'
 import H3 from '../ui/typography/H3'
 import P from '../ui/typography/P'
@@ -45,8 +46,45 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => <div>Loading...</div>
-
+export const Loading = () => (
+  <>
+    <div className="flex max-h-[33vh] flex-col-reverse overflow-clip border-b md:flex-row">
+      <div className="flex flex-1 items-center p-2 max-sm:border-t md:justify-center md:border-r md:p-16">
+        <div>
+          <Skeleton className="h-8 w-96" />
+          <Skeleton className="mt-2 h-5 w-1/2" />
+        </div>
+      </div>
+      {/* Image */}
+      <div className="flex-1">
+        <Skeleton className="h-full w-full rounded-none" />
+      </div>
+    </div>
+    {/* Breadcrumbs */}
+    <div className="container mt-4">
+      <Skeleton className="h-4 w-1/4" />
+    </div>
+    <div className="container mt-4 grid grid-cols-4 gap-8">
+      {/* Left Filter Options */}
+      <div className="hidden md:col-span-1 md:flex md:flex-col md:gap-4">
+        <Skeleton className="h-full w-full" />
+      </div>
+      {/* Products */}
+      <div className="col-span-4 md:col-span-3">
+        <Skeleton className="h-6 w-1/5" />
+        <div className="mt-4 grid grid-cols-2 gap-8 md:grid-cols-3">
+          {new Array(3).fill(null).map((_, i) => (
+            <div key={i}>
+              <Skeleton className="h-64 w-64" />
+              <Skeleton className="mt-2 h-4 w-1/4" />
+              <Skeleton className="mt-4 h-8 w-1/2" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </>
+)
 export const Empty = () => <NotFound />
 
 export const Failure = ({ error }: CellFailureProps) => (

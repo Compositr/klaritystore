@@ -1,3 +1,4 @@
+import { Loader } from 'lucide-react'
 import type {
   FindProductPageQuery,
   FindProductPageQueryVariables,
@@ -12,6 +13,7 @@ import type {
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
 import NotFound from '../NotFound/NotFound'
 import { Button } from '../ui/Button'
+import { Skeleton } from '../ui/Skeleton'
 import H1 from '../ui/typography/H1'
 import H3 from '../ui/typography/H3'
 import Large from '../ui/typography/Large'
@@ -31,7 +33,44 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => (
+  <div className="container mt-16 flex flex-col gap-8 md:grid md:grid-cols-3">
+    <div className="col-span-2 flex w-full">
+      <Skeleton className="flex-1 rounded-md" />
+    </div>
+    <div className="w-full">
+      <Skeleton className="h-16 w-1/2" />
+      <div className="relative mt-8 rounded-xl border p-6">
+        <div className="absolute -top-4 left-4 bg-background px-2">
+          <Large>Price</Large>
+        </div>
+        <H3>
+          <Skeleton className="h-8 w-32" />
+        </H3>
+      </div>
+      <div className="mt-4 w-full">
+        <Button className="w-full" disabled>
+          <Loader className="animate-spin" /> Loading
+        </Button>
+      </div>
+      <div className="relative mt-8 rounded-xl border p-6">
+        <div className="absolute -top-4 left-4 bg-background px-2">
+          <Large>Description</Large>
+        </div>
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="mt-2 h-4 w-7/12" />
+        <Skeleton className="mt-2 h-4 w-1/3" />
+      </div>
+      <div className="relative mt-6 rounded-xl border p-6">
+        <div className="absolute -top-4 left-4 bg-background px-2">
+          <Large>Specifications</Large>
+        </div>
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="mt-2 h-4 w-1/3" />
+      </div>
+    </div>
+  </div>
+)
 
 export const Empty = () => <NotFound />
 
