@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { UpdateMeMutation, UpdateMeMutationVariables } from 'types/graphql'
 import { z } from 'zod'
@@ -48,21 +49,21 @@ const ProfileForm = () => {
     },
   })
 
-  const [mutate] = useMutation<UpdateMeMutation, UpdateMeMutationVariables>(
-    MUTATION,
-    {
-      onCompleted: () =>
-        toast({
-          description: 'Profile updated',
-        }),
-      onError: (error) =>
-        toast({
-          description: error.message,
-          variant: 'destructive',
-          title: 'There was an error updating your profile',
-        }),
-    }
-  )
+  const [mutate, { loading }] = useMutation<
+    UpdateMeMutation,
+    UpdateMeMutationVariables
+  >(MUTATION, {
+    onCompleted: () =>
+      toast({
+        description: 'Profile updated',
+      }),
+    onError: (error) =>
+      toast({
+        description: error.message,
+        variant: 'destructive',
+        title: 'There was an error updating your profile',
+      }),
+  })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await mutate({
@@ -138,7 +139,15 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Save Changes</Button>
+        <Button type="submit" disabled={loading}>
+          {!loading && 'Save Changes'}
+          {loading && (
+            <>
+              <Loader className="animate-spin" />
+              <span>Saving...</span>
+            </>
+          )}
+        </Button>
       </form>
     </Form>
   )
