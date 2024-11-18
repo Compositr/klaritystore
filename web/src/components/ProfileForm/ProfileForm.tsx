@@ -1,8 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { UpdateMeMutation, UpdateMeMutationVariables } from 'types/graphql'
 import { z } from 'zod'
 
+import { useMutation } from '@redwoodjs/web'
+
 import { useAuth } from 'src/auth'
+import { useToast } from 'src/hooks/useToast'
 
 import { Button } from '../ui/Button'
 import {
@@ -21,8 +25,19 @@ const formSchema = z.object({
   email: z.string().email(),
 })
 
+const MUTATION = gql`
+  mutation UpdateMeMutation($input: UpdateUserInput!) {
+    updateMe(input: $input) {
+      firstName
+      lastName
+      email
+    }
+  }
+`
+
 const ProfileForm = () => {
   const { currentUser } = useAuth()
+  const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,8 +48,32 @@ const ProfileForm = () => {
     },
   })
 
+  const [mutate] = useMutation<UpdateMeMutation, UpdateMeMutationVariables>(
+    MUTATION,
+    {
+      onCompleted: () =>
+        toast({
+          description: 'Profile updated',
+        }),
+      onError: (error) =>
+        toast({
+          description: error.message,
+          variant: 'destructive',
+          title: 'There was an error updating your profile',
+        }),
+    }
+  )
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    await mutate({
+      variables: {
+        input: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+        },
+      },
+    })
   }
 
   return (
