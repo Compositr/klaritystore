@@ -1,20 +1,13 @@
-// import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
+
+import H2 from 'src/components/ui/typography/H2'
 
 const AccountSecurityPage = () => {
   return (
     <>
-      <Metadata title="AccountSecurity" description="AccountSecurity page" />
+      <Metadata title="Security" description="Manage your password" />
 
-      <h1>AccountSecurityPage</h1>
-      <p>
-        Find me in{' '}
-        <code>./web/src/pages/AccountSecurityPage/AccountSecurityPage.tsx</code>
-      </p>
-      {/*
-          My default route is named `accountSecurity`, link to me with:
-          `<Link to={routes.accountSecurity()}>AccountSecurity</Link>`
-      */}
+      <H2>Security</H2>
     </>
   )
 }
