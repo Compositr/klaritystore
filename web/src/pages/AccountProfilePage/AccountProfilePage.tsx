@@ -4,7 +4,7 @@ import { useAuth } from 'src/auth'
 import ProfileForm from 'src/components/ProfileForm/ProfileForm'
 import H2 from 'src/components/ui/typography/H2'
 
-const AccountPage = () => {
+const AccountProfilePage = () => {
   const { currentUser } = useAuth()
 
   if (!currentUser) return null
@@ -20,4 +20,4 @@ const AccountPage = () => {
   )
 }
 
-export default AccountPage
+export default AccountProfilePage

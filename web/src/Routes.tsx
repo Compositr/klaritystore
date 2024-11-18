@@ -17,6 +17,7 @@ import StoreLayout from './layouts/StoreLayout/StoreLayout'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Route path="/account-security" page={AccountSecurityPage} name="accountSecurity" />
       <Route path="/login" page={AuthPage} name="login" prerender />
 
       <Set wrap={StoreLayout}>
@@ -25,7 +26,9 @@ const Routes = () => {
         <Route path="/product/{idInt:Int}" page={ProductPage} name="product" />
 
         <PrivateSet wrap={AccountLayout} unauthenticated="login">
-          <Route path="/account" page={AccountPage} name="account" />
+          <Route path="/account/profile" page={AccountProfilePage} name="account" />
+          <Route path="/account/security" page={AccountSecurityPage} name="accountSecurity" />
+          <Route path="/account/billing" page={AccountBillingPage} name="accountBilling" />
         </PrivateSet>
       </Set>
 

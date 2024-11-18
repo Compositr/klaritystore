@@ -26,12 +26,12 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
     {
       icon: ShieldEllipsis,
       label: 'Password and Security',
-      to: routes.account(),
+      to: routes.accountSecurity(),
     },
     {
       icon: CreditCard,
       label: 'Billing',
-      to: routes.account(),
+      to: routes.accountBilling(),
     },
   ]
 

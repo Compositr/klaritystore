@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import AccountPage from './AccountPage'
+import AccountBillingPage from './AccountBillingPage'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 
-describe('AccountPage', () => {
+describe('AccountBillingPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<AccountPage />)
+      render(<AccountBillingPage />)
     }).not.toThrow()
   })
 })
