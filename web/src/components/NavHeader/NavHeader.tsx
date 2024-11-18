@@ -99,8 +99,7 @@ const NavHeader = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  {/* TODO: Account page */}
-                  <Link to="#">
+                  <Link to={routes.account()}>
                     <User /> Account
                   </Link>
                 </DropdownMenuItem>
@@ -179,7 +178,7 @@ const NavHeader = () => {
                         <Separator className="mb-6" />
                         <div className="grid grid-cols-2 gap-2">
                           <Button asChild size="lg">
-                            <Link to="#">
+                            <Link to={routes.account()}>
                               <User /> Account
                             </Link>
                           </Button>

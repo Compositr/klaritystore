@@ -1,5 +1,7 @@
 import { ChevronsUpDown, LogOut, User } from 'lucide-react'
 
+import { Link, routes } from '@redwoodjs/router'
+
 import { useAuth } from 'src/auth'
 import useIsMobile from 'src/hooks/useIsMobile'
 
@@ -56,9 +58,11 @@ const AdminSidebarUser = () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User />
-                Account
+              <DropdownMenuItem asChild>
+                <Link to={routes.account()}>
+                  <User />
+                  Account
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

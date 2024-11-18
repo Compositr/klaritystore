@@ -10,6 +10,7 @@
 import { Router, Route, Set, PrivateSet } from '@redwoodjs/router'
 
 import { useAuth } from './auth'
+import AccountLayout from './layouts/AccountLayout/AccountLayout'
 import AdminLayout from './layouts/AdminLayout/AdminLayout'
 import StoreLayout from './layouts/StoreLayout/StoreLayout'
 
@@ -22,6 +23,10 @@ const Routes = () => {
         <Route path="/" page={HomePage} name="home" prerender />
         <Route path="/category/{idString}" page={CategoryPage} name="category" />
         <Route path="/product/{idInt:Int}" page={ProductPage} name="product" />
+
+        <PrivateSet wrap={AccountLayout} unauthenticated="login">
+          <Route path="/account" page={AccountPage} name="account" />
+        </PrivateSet>
       </Set>
 
       <PrivateSet unauthenticated="home" wrap={AdminLayout} roles={'Employee'}>
