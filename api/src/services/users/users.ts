@@ -1,5 +1,6 @@
 import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
+import { changePassword } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 
 export const me: QueryResolvers['me'] = () => {
@@ -13,4 +14,10 @@ export const updateMe: MutationResolvers['updateMe'] = ({ input }) => {
     data: input,
     where: { idString: context.currentUser.idString },
   })
+}
+
+export const changeMyPassword: MutationResolvers['changeMyPassword'] = ({
+  input,
+}) => {
+  return changePassword({ ...input })
 }

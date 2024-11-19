@@ -1,6 +1,7 @@
 import { Role } from '@prisma/client'
 
 import type { Decoded } from '@redwoodjs/api'
+import { hashPassword } from '@redwoodjs/auth-dbauth-api'
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 import { db } from './db'
@@ -120,4 +121,39 @@ export const requireAuth = ({ roles }: { roles?: RolesRequired } = {}) => {
   if (roles && !hasRole(roles)) {
     throw new ForbiddenError("You don't have access to do that.")
   }
+}
+
+export const changePassword = async ({ currentPassword, newPassword }) => {
+  if (!isAuthenticated()) {
+    throw new AuthenticationError(
+      'You must be logged in to change your password.'
+    )
+  }
+
+  const fullUser = await db.user.findUnique({
+    where: { idString: context.currentUser.idString },
+  })
+
+  if (!fullUser) {
+    throw new AuthenticationError('User not found')
+  }
+
+  const [oldHash] = hashPassword(currentPassword, {
+    salt: fullUser.salt,
+  })
+
+  if (oldHash !== fullUser.hashedPassword) {
+    throw new ForbiddenError('Invalid password')
+  }
+
+  const [hash, salt] = hashPassword(newPassword)
+  await db.user.update({
+    where: { idString: context.currentUser.idString },
+    data: {
+      hashedPassword: hash,
+      salt,
+    },
+  })
+
+  return true
 }
