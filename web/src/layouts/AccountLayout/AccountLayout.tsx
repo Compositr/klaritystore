@@ -49,15 +49,15 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
           <span className="truncate text-xs">{currentUser.email}</span>
         </div>
       </div>
-      <div className="container grid h-full grid-cols-4 gap-8">
+      <div className="container grid h-full grid-cols-4 gap-12">
         {/* Sidebar */}
-        <div className="flex h-full flex-col gap-1">
+        <div className="col-span-4 flex h-full flex-col gap-1 md:col-span-1">
           {links.map((link) => (
             <AccountPageLink key={link.label} {...link} />
           ))}
         </div>
         {/* Main Content */}
-        <div className="col-span-3 h-full">{children}</div>
+        <div className="col-span-4 h-full md:col-span-3">{children}</div>
       </div>
     </>
   )
