@@ -9,24 +9,41 @@ describe('requireAuth directive', () => {
   })
 
   it('should throw when no current user', () => {
-    expect(() => {
-      mockRedwoodDirective(requireAuth, { context: {} })
-    }).toThrow()
+    const mockExecution = mockRedwoodDirective(requireAuth, { context: {} })
+
+    expect(mockExecution).toThrow()
   })
 
   it('should not throw when current user', () => {
-    expect(() => {
-      mockRedwoodDirective(requireAuth, {
-        context: {
-          currentUser: {
-            email: 'example@example.org',
-            firstName: 'Example',
-            idString: '42',
-            lastName: 'User',
-            roles: ['Administrator'],
-          },
+    const mockExecution = mockRedwoodDirective(requireAuth, {
+      context: {
+        currentUser: {
+          email: 'example@example.org',
+          firstName: 'Example',
+          idString: '42',
+          lastName: 'User',
+          roles: ['Administrator'],
         },
-      })
-    }).not.toThrow()
+      },
+    })
+
+    expect(mockExecution).not.toThrow()
+  })
+
+  it('should throw when current user does not have required role', () => {
+    const mockExecution = mockRedwoodDirective(requireAuth, {
+      context: {
+        currentUser: {
+          email: 'example@example.org',
+          firstName: 'Example',
+          idString: '42',
+          lastName: 'User',
+          roles: ['Customer'],
+        },
+      },
+      directiveArgs: { roles: ['Administrator'] },
+    })
+
+    expect(mockExecution).toThrow()
   })
 })
