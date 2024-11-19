@@ -8,7 +8,7 @@ import AdminSidebarSecondaryNav from './AdminSidebarSecondaryNav'
 describe('AdminSidebarSecondaryNav', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<AdminSidebarSecondaryNav />)
+      render(<AdminSidebarSecondaryNav items={[]} />)
     }).not.toThrow()
   })
 })

@@ -36,7 +36,7 @@ describe('ProductPageCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success productPage={standard().productPage} />)
+      render(<Success product={standard().product} />)
     }).not.toThrow()
   })
 })

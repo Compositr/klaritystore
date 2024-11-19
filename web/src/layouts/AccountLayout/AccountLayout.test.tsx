@@ -7,6 +7,8 @@ import AccountLayout from './AccountLayout'
 
 describe('AccountLayout', () => {
   it('renders successfully', () => {
+    window.scrollTo = jest.fn()
+
     expect(() => {
       render(<AccountLayout />)
     }).not.toThrow()

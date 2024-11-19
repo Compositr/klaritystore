@@ -8,6 +8,16 @@ import AdminSidebarUser from './AdminSidebarUser'
 describe('AdminSidebarUser', () => {
   it('renders successfully', () => {
     expect(() => {
+      window.matchMedia = jest.fn().mockImplementation(() => {
+        return {
+          addListener: jest.fn(),
+          matches: false,
+          media: 'media',
+          onchange: null,
+          removeListener: jest.fn(),
+        }
+      })
+
       render(<AdminSidebarUser />)
     }).not.toThrow()
   })
