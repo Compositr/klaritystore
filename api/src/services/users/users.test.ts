@@ -1,4 +1,4 @@
-import { me, updateMe } from './users'
+import { changeMyPassword, me, updateMe } from './users'
 import type { StandardScenario } from './users.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances
@@ -24,5 +24,15 @@ describe('users', () => {
     })
 
     expect(result.email).toEqual('String')
+  })
+
+  scenario('can change password', async (scenario: StandardScenario) => {
+    mockCurrentUser(scenario.user.three)
+
+    const result = await changeMyPassword({
+      input: { currentPassword: 'password', newPassword: 'newpassword' },
+    })
+
+    expect(result).toEqual(true)
   })
 })
