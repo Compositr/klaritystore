@@ -29,10 +29,10 @@
     "@radix-ui/react-tabs": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.2",
     "@radix-ui/react-tooltip": "^1.1.4",
-    "@redwoodjs/auth-dbauth-web": "8.4.0",
-    "@redwoodjs/forms": "8.4.0",
-    "@redwoodjs/router": "8.4.0",
-    "@redwoodjs/web": "8.4.0",
+    "@redwoodjs/auth-dbauth-web": "8.4.1",
+    "@redwoodjs/forms": "8.4.1",
+    "@redwoodjs/router": "8.4.1",
+    "@redwoodjs/web": "8.4.1",
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -46,7 +46,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@redwoodjs/vite": "8.4.0",
+    "@redwoodjs/vite": "8.4.1",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.20",
