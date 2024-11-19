@@ -1,7 +1,6 @@
 import { Metadata } from '@redwoodjs/web'
 
 import StatCard from 'src/components/StatCard/StatCard'
-import TestChart from 'src/components/TestChart/TestChart'
 import H3 from 'src/components/ui/typography/H3'
 
 const AdminPage = () => {
@@ -19,7 +18,6 @@ const AdminPage = () => {
           <div className="aspect-video rounded-xl bg-muted">stat card</div>
         </div>
 
-        <TestChart />
         <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
       </div>
     </>
