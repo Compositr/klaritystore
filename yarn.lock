@@ -7048,6 +7048,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redwoodjs/storage@npm:8.4.1":
+  version: 8.4.1
+  resolution: "@redwoodjs/storage@npm:8.4.1"
+  dependencies:
+    "@redwoodjs/project-config": "npm:8.4.1"
+    mime-types: "npm:2.1.35"
+    ulid: "npm:2.3.0"
+  checksum: 10c0/18b26c6fc6e1842309d78cba91435d6ba48e6b65da4c520c8548c3012acc54140db51837019f491e366f2b79a34dc8d3a62c8328011bffa35f17906b2020fba3
+  languageName: node
+  linkType: hard
+
 "@redwoodjs/structure@npm:8.4.1":
   version: 8.4.1
   resolution: "@redwoodjs/structure@npm:8.4.1"
@@ -9796,6 +9807,7 @@ __metadata:
     "@redwoodjs/api": "npm:8.4.1"
     "@redwoodjs/auth-dbauth-api": "npm:8.4.1"
     "@redwoodjs/graphql-server": "npm:8.4.1"
+    "@redwoodjs/storage": "npm:8.4.1"
   languageName: unknown
   linkType: soft
 
@@ -22613,6 +22625,15 @@ __metadata:
   bin:
     uglifyjs: bin/uglifyjs
   checksum: 10c0/83b0a90eca35f778e07cad9622b80c448b6aad457c9ff8e568afed978212b42930a95f9e1be943a1ffa4258a3340fbb899f41461131c05bb1d0a9c303aed8479
+  languageName: node
+  linkType: hard
+
+"ulid@npm:2.3.0":
+  version: 2.3.0
+  resolution: "ulid@npm:2.3.0"
+  bin:
+    ulid: ./bin/cli.js
+  checksum: 10c0/070d237502781085e59cf3d8ece752ff96cd3a0990cf1c1be57273f4550597daeb72e9a7db8e5a320de31102509bb3321d280b54bfc44e98025e4628a9629773
   languageName: node
   linkType: hard
 

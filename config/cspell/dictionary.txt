@@ -2,3 +2,5 @@ klarity
 clsx
 shadcn
 dbauth
+cuid
+cuid2
