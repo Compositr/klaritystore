@@ -5,6 +5,7 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { saveFiles } from 'src/lib/uploads'
 
 export const products: QueryResolvers['products'] = () => {
   return db.product.findMany()
@@ -16,18 +17,22 @@ export const product: QueryResolvers['product'] = ({ idInt }) => {
   })
 }
 
-export const createProduct: MutationResolvers['createProduct'] = ({
+export const createProduct: MutationResolvers['createProduct'] = async ({
   input,
 }) => {
+  await saveFiles.forProduct(input)
+
   return db.product.create({
     data: input,
   })
 }
 
-export const updateProduct: MutationResolvers['updateProduct'] = ({
+export const updateProduct: MutationResolvers['updateProduct'] = async ({
   idInt,
   input,
 }) => {
+  await saveFiles.forProduct(input)
+
   return db.product.update({
     data: input,
     where: { idInt },

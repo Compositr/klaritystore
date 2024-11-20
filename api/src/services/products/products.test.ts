@@ -15,6 +15,43 @@ import type { StandardScenario } from './products.scenarios'
 //       https://redwoodjs.com/docs/testing#testing-services
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R> {
+      toEqualScalars(expected: unknown): R
+    }
+  }
+}
+
+expect.extend({
+  toEqualScalars(received, expected) {
+    const filterScalars = (obj) =>
+      Object.fromEntries(
+        Object.entries(obj).filter(([, value]) => typeof value !== 'function')
+      )
+
+    const filteredReceived = filterScalars(received)
+    const filteredExpected = filterScalars(expected)
+
+    const pass = this.equals(filteredReceived, filteredExpected)
+
+    if (pass) {
+      return {
+        message: () =>
+          `Expected objects not to match scalar values, but they do.`,
+        pass: true,
+      }
+    } else {
+      return {
+        message: () =>
+          `Expected objects to match scalar values, but they do not.`,
+        pass: false,
+      }
+    }
+  },
+})
+
 describe('products', () => {
   scenario('returns all products', async (scenario: StandardScenario) => {
     const result = await products()
@@ -25,7 +62,7 @@ describe('products', () => {
   scenario('returns a single product', async (scenario: StandardScenario) => {
     const result = await product({ idInt: scenario.product.one.idInt })
 
-    expect(result).toEqual(scenario.product.one)
+    expect(result).toEqualScalars(scenario.product.one)
   })
 
   scenario('creates a product', async (scenario: StandardScenario) => {

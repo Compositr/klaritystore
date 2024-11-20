@@ -5,6 +5,7 @@ export const schema = gql`
     price: Float!
     description: String!
     specifications: String!
+    image: File
     category: Category!
     categoryId: String!
     createdAt: DateTime!
@@ -20,6 +21,7 @@ export const schema = gql`
     name: String!
     price: Float!
     description: String!
+    image: File
     specifications: String!
     categoryId: String!
   }
@@ -28,6 +30,7 @@ export const schema = gql`
     name: String
     price: Float
     description: String
+    image: File
     specifications: String
     categoryId: String
   }
