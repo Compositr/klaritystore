@@ -1,6 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import {
+  CategoriesQuery,
+  CategoriesQueryVariables,
+  CreateProductMutation,
+  CreateProductMutationVariables,
+} from 'types/graphql'
 import { z } from 'zod'
+
+import { useMutation, useQuery } from '@redwoodjs/web'
+
+import { useToast } from 'src/hooks/useToast'
 
 import ProductCard from '../ProductCard/ProductCard'
 import { Button } from '../ui/Button'
@@ -13,6 +23,13 @@ import {
   FormMessage,
 } from '../ui/Form'
 import { Input } from '../ui/Input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/Select'
 import { Textarea } from '../ui/Textarea'
 import H3 from '../ui/typography/H3'
 
@@ -28,15 +45,92 @@ const formSchema = z.object({
   description: z
     .string()
     .max(500, 'Product description cannot exceed 500 characters'),
+  specifications: z
+    .string()
+    .max(500, 'Product specifications cannot exceed 500 characters'),
+  categoryId: z.string().min(1, 'Category must be selected'),
 })
 
+const MUTATION = gql`
+  mutation CreateProductMutation($input: CreateProductInput!) {
+    createProduct(input: $input) {
+      idInt
+      name
+      price
+      description
+    }
+  }
+`
+
+const QUERY = gql`
+  query CategoriesQuery {
+    categories {
+      idString
+      name
+    }
+  }
+`
+
 const ProductForm = () => {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      price: 0,
+      description: '',
+      specifications: '',
+      categoryId: '',
+    },
   })
 
+  const [mutate, { loading: mutLoading }] = useMutation<
+    CreateProductMutation,
+    CreateProductMutationVariables
+  >(MUTATION, {
+    onCompleted: (product) => {
+      toast({
+        title: 'Product created',
+        description: `Product "${product.createProduct.name}" with ID #${product.createProduct.idInt} has been created`,
+      })
+
+      form.reset({
+        name: '',
+        price: 0,
+        description: '',
+        specifications: '',
+        categoryId: '',
+      })
+    },
+    onError: (error) => {
+      toast({
+        title: 'Product creation failed',
+        description: error.message,
+        variant: 'destructive',
+      })
+    },
+  })
+
+  const { data, loading: queryLoading } = useQuery<
+    CategoriesQuery,
+    CategoriesQueryVariables
+  >(QUERY)
+
+  const loading = mutLoading || queryLoading
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log('values', values)
+    await mutate({
+      variables: {
+        input: {
+          name: values.name,
+          price: values.price,
+          description: values.description,
+          specifications: values.specifications,
+          categoryId: values.categoryId,
+        },
+      },
+    })
   }
 
   return (
@@ -70,6 +164,35 @@ const ProductForm = () => {
             />
             <FormField
               control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Category</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {data?.categories.map((category) => (
+                        <SelectItem
+                          key={category.idString}
+                          value={category.idString}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
@@ -80,6 +203,7 @@ const ProductForm = () => {
                       type="number"
                       placeholder="0.00"
                       step=".01"
+                      required
                       {...field}
                     />
                   </FormControl>
@@ -92,10 +216,10 @@ const ProductForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product Name</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      id="name"
+                      id="description"
                       placeholder="Write up to 500 characters"
                       {...field}
                     />
@@ -104,8 +228,26 @@ const ProductForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Create
+            <FormField
+              control={form.control}
+              name="specifications"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Specifications</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      id="specifications"
+                      placeholder="Write up to 500 characters"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full" disabled={loading}>
+              {!loading && 'Create Product'}
+              {loading && 'Creating Product...'}
             </Button>
           </form>
         </Form>
