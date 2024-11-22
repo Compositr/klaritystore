@@ -36,6 +36,8 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [idString])
   categoryId String
 
+  cartItems CartItem[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -47,6 +49,7 @@ model User {
   lastName  String
 
   roles Role[] @default([Customer])
+  carts Cart[]
 
   // dbAuth fields
   hashedPassword      String
@@ -71,4 +74,34 @@ enum Role {
 
   // Akin to no permissions (i.e. normal user)
   Customer
+}
+
+model Cart {
+  // cuid2 (collision resistant and harder to guess, while being shorter than uuid)
+  idString String @id
+
+  // User is optional: A cart may be anonymous (logged out) and managed only through ID
+  user   User?   @relation(fields: [userId], references: [idString])
+  userId String? @unique
+
+  items CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Represents an item in someone's cart
+model CartItem {
+  product   Product @relation(fields: [productId], references: [idInt])
+  productId Int
+
+  cart   Cart   @relation(fields: [cartId], references: [idString])
+  cartId String
+
+  quantity Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([productId, cartId])
 }
