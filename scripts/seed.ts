@@ -36,7 +36,7 @@ export default async () => {
     })
 
     await db.product.createMany({
-      data: new Array(30).fill(null).map((_, i) => ({
+      data: new Array(5).fill(null).map((_, i) => ({
         name: `Diary #${i + 1}`,
         description: `Description of Product ${i + 1}`,
         specifications: `Specifications of Product ${i + 1}`,
@@ -46,7 +46,7 @@ export default async () => {
     })
 
     await db.product.createMany({
-      data: new Array(30).fill(null).map((_, i) => ({
+      data: new Array(5).fill(null).map((_, i) => ({
         name: `Notepad #${i + 1}`,
         description: `Description of Product ${i + 1}`,
         specifications: `Specifications of Product ${i + 1}`,
@@ -56,7 +56,7 @@ export default async () => {
     })
 
     await db.product.createMany({
-      data: new Array(30).fill(null).map((_, i) => ({
+      data: new Array(5).fill(null).map((_, i) => ({
         name: `Pen #${i + 1}`,
         description: `Description of Product ${i + 1}`,
         specifications: `Specifications of Product ${i + 1}`,
