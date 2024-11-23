@@ -18,7 +18,7 @@ export const cart: QueryResolvers['cart'] = async ({ idString }) => {
     where: { idString },
   })
 
-  if (cart.userId && cart.userId !== context.currentUser?.idString) {
+  if (cart?.userId && cart.userId !== context.currentUser?.idString) {
     throw new ForbiddenError('User does not have access to this cart')
   }
 
