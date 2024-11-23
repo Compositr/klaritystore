@@ -19,3 +19,5 @@ dictionaries:
 ignorePaths:
   - 'target/**'
   - 'config/cspell/*.txt'
+  - 'node_modules'
+  - 'yarn.lock'
