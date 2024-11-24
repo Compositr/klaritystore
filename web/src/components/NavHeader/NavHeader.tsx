@@ -2,12 +2,13 @@ import * as React from 'react'
 
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import logoLightSrc from 'assets/img/logo-light.png'
-import { LogOut, Menu, Search, ShoppingCart, Store, User } from 'lucide-react'
+import { LogOut, Menu, Search, Store, User } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
+import CartButton from '../CartButton/CartButton'
 import { Button } from '../ui/Button'
 import {
   DropdownMenu,
@@ -138,9 +139,7 @@ const NavHeader = () => {
               </div>
             </PopoverContent>
           </Popover>
-          <Button variant="outline" size="icon">
-            <ShoppingCart />
-          </Button>
+          <CartButton />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="lg:hidden">

@@ -10,6 +10,8 @@ import type {
   TypedDocumentNode,
 } from '@redwoodjs/web'
 
+import useCart from 'src/hooks/useCart'
+
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
 import NotFound from '../NotFound/NotFound'
 import { Button } from '../ui/Button'
@@ -83,6 +85,8 @@ export const Failure = ({
 export const Success = ({
   product,
 }: CellSuccessProps<FindProductPageQuery, FindProductPageQueryVariables>) => {
+  const [cart, { addToCart, loading }] = useCart()
+
   return (
     <div className="container mt-16 flex flex-col gap-8 md:grid md:grid-cols-3">
       <div className="col-span-2 w-full overflow-clip">
@@ -103,7 +107,22 @@ export const Success = ({
           </H3>
         </div>
         <div className="mt-4 w-full">
-          <Button className="w-full">Add to Cart</Button>
+          {/* TODO: Dedicated "asChild'd" LoaderButton */}
+          <Button
+            className="w-full"
+            disabled={loading}
+            onClick={() => {
+              addToCart(product.idInt)
+            }}
+          >
+            {!loading && 'Add to Cart'}
+            {loading && (
+              <>
+                <Loader className="animate-spin" />
+                Processing...
+              </>
+            )}
+          </Button>
         </div>
         <div className="relative mt-8 rounded-xl border p-6">
           <div className="absolute -top-4 left-4 bg-background px-2">
