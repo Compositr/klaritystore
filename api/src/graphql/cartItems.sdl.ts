@@ -9,7 +9,9 @@ export const schema = gql`
     updatedAt: DateTime!
   }
 
-  # No queries - Please fetch from carts.sdl
+  type Query {
+    cartItem(cartId: String!, productId: Int!): CartItem @skipAuth
+  }
 
   input CreateCartItemInput {
     cartId: String!

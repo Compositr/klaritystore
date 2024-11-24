@@ -1,12 +1,35 @@
 import type {
   MutationResolvers,
   CartItemRelationResolvers,
+  QueryResolvers,
 } from 'types/graphql'
 
 import { validate } from '@redwoodjs/api'
 import { ForbiddenError, ValidationError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
+
+export const cartItem: QueryResolvers['cartItem'] = async ({
+  cartId,
+  productId,
+}) => {
+  const cart = await db.cart.findUnique({
+    where: { idString: cartId },
+    include: {
+      items: {
+        select: { productId: true },
+      },
+    },
+  })
+
+  if (!cart) throw new ValidationError('Cart ID invalid')
+  if (cart.userId && cart.userId !== context.currentUser?.idString)
+    throw new ForbiddenError('User does not have access to this cart')
+
+  return db.cartItem.findUnique({
+    where: { productId_cartId: { productId, cartId } },
+  })
+}
 
 export const createCartItem: MutationResolvers['createCartItem'] = async ({
   input,
@@ -119,27 +142,14 @@ export const deleteCartItem: MutationResolvers['deleteCartItem'] = async ({
 
 export const CartItems: CartItemRelationResolvers = {
   cart: (_obj, { root }) => {
-    return db.cartItem
-      .findUnique({
-        where: {
-          productId_cartId: {
-            cartId: root?.cartId,
-            productId: root?.productId,
-          },
-        },
-      })
-      .cart()
+    return db.cart.findUnique({
+      where: { idString: root?.cartId },
+    })
   },
   product: (_obj, { root }) => {
-    return db.cartItem
-      .findUnique({
-        where: {
-          productId_cartId: {
-            cartId: root?.cartId,
-            productId: root?.productId,
-          },
-        },
-      })
-      .product()
+    console.log(root)
+    return db.product.findUnique({
+      where: { idInt: root?.productId },
+    })
   },
 }
