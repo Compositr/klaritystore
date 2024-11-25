@@ -147,7 +147,6 @@ export const CartItems: CartItemRelationResolvers = {
     })
   },
   product: (_obj, { root }) => {
-    console.log(root)
     return db.product.findUnique({
       where: { idInt: root?.productId },
     })
