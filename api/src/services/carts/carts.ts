@@ -27,7 +27,7 @@ export const cart: QueryResolvers['cart'] = async ({ idString }) => {
 
 export const myCart: QueryResolvers['myCart'] = async () => {
   return db.cart.findFirst({
-    where: { userId: context.currentUser.idString },
+    where: { userId: context.currentUser?.idString },
   })
 }
 
