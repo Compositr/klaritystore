@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import {
   AddToCart,
   AddToCartVariables,
@@ -102,12 +100,13 @@ const useCart = (): UseCart => {
     variables: {
       idString: storedCartId,
     },
+    errorPolicy: 'all',
   })
 
   // React to changes in the cart data (e.g. we added an item)
   function reactToChanges() {
     client.refetchQueries({
-      include: ['myCart', 'cart'],
+      include: [QUERY],
     })
   }
 
@@ -122,10 +121,6 @@ const useCart = (): UseCart => {
     // Wait until query is no longer loading
     if (queryLoading) return
 
-    console.log('queryLoading', queryLoading)
-    console.log('storedCart', storedCartId)
-    console.log(data)
-
     // Create cart if no cart exists
     if (!storedCartId && !data?.myCart) {
       createCart().then((res) => setStoredCartId(res.data.createCart.idString))
@@ -139,11 +134,11 @@ const useCart = (): UseCart => {
     onCompleted: reactToChanges,
   })
 
-  useEffect(() => {})
-
   const loading =
     queryLoading || addToCartState.loading || createCartState.loading
   const cartId = data?.myCart?.idString ?? data?.cart?.idString
+
+  console.log(data)
 
   return [
     data?.myCart ?? data?.cart,
