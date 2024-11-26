@@ -11,6 +11,7 @@ import { z } from 'zod'
 import { useMutation, useQuery } from '@redwoodjs/web'
 
 import { useToast } from 'src/hooks/useToast'
+import { zImage } from 'src/lib/zod'
 
 import ProductCard from '../ProductCard/ProductCard'
 import { Button } from '../ui/Button'
@@ -49,6 +50,7 @@ const formSchema = z.object({
     .string()
     .max(500, 'Product specifications cannot exceed 500 characters'),
   categoryId: z.string().min(1, 'Category must be selected'),
+  image: zImage,
 })
 
 const MUTATION = gql`
@@ -128,6 +130,7 @@ const ProductForm = () => {
           description: values.description,
           specifications: values.specifications,
           categoryId: values.categoryId,
+          image: values.image,
         },
       },
     })
@@ -239,6 +242,28 @@ const ProductForm = () => {
                       id="specifications"
                       placeholder="Write up to 500 characters"
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="image"
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              render={({ field: { value, onChange, ...fieldProps } }) => (
+                <FormItem>
+                  <FormLabel>Picture</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...fieldProps}
+                      placeholder="Image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(event) =>
+                        onChange(event.target.files && event.target.files[0])
+                      }
                     />
                   </FormControl>
                   <FormMessage />
