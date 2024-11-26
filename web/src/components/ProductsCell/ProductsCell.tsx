@@ -53,6 +53,7 @@ export const QUERY: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> =
         name
         description
         price
+        image
         category {
           idString
           name
@@ -137,6 +138,20 @@ const columns: ColumnDef<
   {
     accessorKey: 'description',
     header: 'Description',
+  },
+  {
+    accessorKey: 'image',
+    header: 'Image',
+    cell: ({ row }) =>
+      row.getValue('image') ? (
+        <img
+          src={row.getValue('image')}
+          alt={row.getValue('name')}
+          className="h-8 w-8 rounded-md object-cover"
+        />
+      ) : (
+        <span>No image</span>
+      ),
   },
   {
     id: 'actions',
