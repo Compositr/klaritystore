@@ -43,9 +43,11 @@ export const deleteCategory: MutationResolvers['deleteCategory'] = ({
 }
 
 export const Category: CategoryRelationResolvers = {
-  products: (_obj, { root }) => {
-    return db.category
-      .findUnique({ where: { idString: root?.idString } })
-      .products()
+  products: async (_obj, { root }) => {
+    const products = await db.product.findMany({
+      where: { categoryId: root.idString },
+    })
+
+    return products.map((p) => p.withSignedUrl())
   },
 }
