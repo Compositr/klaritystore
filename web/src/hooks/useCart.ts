@@ -136,22 +136,29 @@ const useCart = (): UseCart => {
 
   const loading =
     queryLoading || addToCartState.loading || createCartState.loading
-  const cartId = data?.myCart?.idString ?? data?.cart?.idString
+  const cart = data?.myCart ?? data?.cart
+  const cartId = cart?.idString
 
   console.log(data)
 
   return [
-    data?.myCart ?? data?.cart,
+    cart,
     {
       loading,
-      addToCart: (productId: number, quantity = 1) =>
+      addToCart: (productId: number, quantity = 1) => {
+        if (cart.items.some((i) => i.product.idInt === productId)) {
+          // Product in cart already, add quantity
+          return
+        }
+
         addToCart({
           variables: {
             cartId,
             productId,
             quantity,
           },
-        }),
+        })
+      },
       addToCartState,
     },
   ]

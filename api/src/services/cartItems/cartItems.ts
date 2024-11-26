@@ -2,6 +2,7 @@ import type {
   MutationResolvers,
   CartItemRelationResolvers,
   QueryResolvers,
+  CartRelationResolvers,
 } from 'types/graphql'
 
 import { validate } from '@redwoodjs/api'
@@ -150,5 +151,15 @@ export const CartItems: CartItemRelationResolvers = {
     return db.product.findUnique({
       where: { idInt: root?.productId },
     })
+  },
+}
+
+// FIXME: createCartItem.cart is still nullish
+export const Cart: CartRelationResolvers = {
+  user: (_obj, { root }) => {
+    return db.cart.findUnique({ where: { idString: root?.userId } }).user()
+  },
+  items: (_obj, { root }) => {
+    return db.cart.findUnique({ where: { idString: root?.idString } }).items()
   },
 }
