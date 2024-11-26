@@ -5,7 +5,7 @@ export const schema = gql`
     price: Float!
     description: String!
     specifications: String!
-    image: File
+    imageUrl: String
     category: Category!
     categoryId: String!
     createdAt: DateTime!

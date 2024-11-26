@@ -11,19 +11,21 @@ export const products: QueryResolvers['products'] = () => {
   return db.product.findMany()
 }
 
-export const product: QueryResolvers['product'] = ({ idInt }) => {
-  return db.product.findUnique({
+export const product: QueryResolvers['product'] = async ({ idInt }) => {
+  const product = await db.product.findUnique({
     where: { idInt },
   })
+
+  return product.withSignedUrl()
 }
 
 export const createProduct: MutationResolvers['createProduct'] = async ({
   input,
 }) => {
-  await saveFiles.forProduct(input)
+  const processed = await saveFiles.forProduct(input)
 
   return db.product.create({
-    data: input,
+    data: processed,
   })
 }
 
@@ -31,10 +33,10 @@ export const updateProduct: MutationResolvers['updateProduct'] = async ({
   idInt,
   input,
 }) => {
-  await saveFiles.forProduct(input)
+  const processed = await saveFiles.forProduct(input)
 
   return db.product.update({
-    data: input,
+    data: processed,
     where: { idInt },
   })
 }
