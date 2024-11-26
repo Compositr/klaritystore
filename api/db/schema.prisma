@@ -31,7 +31,7 @@ model Product {
   description    String
   specifications String
   // Images processed by Redwood's experimental uploads system
-  image String?
+  imageUrl String?
 
   category   Category @relation(fields: [categoryId], references: [idString])
   categoryId String

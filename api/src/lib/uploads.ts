@@ -6,7 +6,7 @@ const uploadsConfig = createUploadsConfig({
   // Configure your fields here
   // e.g. modelName: { fields: ['fieldWithUpload']}
   product: {
-    fields: ['image'],
+    fields: ['imageUrl'],
   },
 })
 
