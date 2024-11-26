@@ -3,6 +3,7 @@ import type {
   QueryResolvers,
   MutationResolvers,
   CartRelationResolvers,
+  CartItemRelationResolvers,
 } from 'types/graphql'
 
 import { ForbiddenError, ValidationError } from '@redwoodjs/graphql-server'
@@ -57,5 +58,20 @@ export const Cart: CartRelationResolvers = {
   },
   items: (_obj, { root }) => {
     return db.cart.findUnique({ where: { idString: root?.idString } }).items()
+  },
+}
+
+export const CartItem: CartItemRelationResolvers = {
+  product: (_obj, { root }) => {
+    return db.cartItem
+      .findUnique({
+        where: {
+          productId_cartId: {
+            cartId: root?.cartId,
+            productId: root?.productId,
+          },
+        },
+      })
+      .product()
   },
 }
