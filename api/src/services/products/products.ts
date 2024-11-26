@@ -7,8 +7,10 @@ import type {
 import { db } from 'src/lib/db'
 import { saveFiles } from 'src/lib/uploads'
 
-export const products: QueryResolvers['products'] = () => {
-  return db.product.findMany()
+export const products: QueryResolvers['products'] = async () => {
+  const products = await db.product.findMany()
+
+  return products?.map((p) => p.withSignedUrl())
 }
 
 export const product: QueryResolvers['product'] = async ({ idInt }) => {
