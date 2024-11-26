@@ -9,20 +9,22 @@ interface ProductCardProps {
     idInt: number
     name: string
     price: number
+    image?: string
   }
 }
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <div>
-      <div className="overflow-clip">
+    <div className="flex flex-col">
+      <div className="flex-1 overflow-clip">
         <Link
           to={routes.product({
             idInt: product.idInt,
           })}
+          className="block h-full"
         >
           <img
-            src="https://placehold.co/500"
-            className="w-full"
+            src={product.image ?? 'https://placehold.co/500'}
+            className="h-full w-full object-cover"
             alt={product.name}
           />
         </Link>

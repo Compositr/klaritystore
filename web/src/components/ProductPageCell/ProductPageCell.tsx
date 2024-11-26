@@ -29,6 +29,7 @@ export const QUERY: TypedDocumentNode<
       idInt
       name
       price
+      image
       description
       specifications
     }
@@ -85,13 +86,13 @@ export const Failure = ({
 export const Success = ({
   product,
 }: CellSuccessProps<FindProductPageQuery, FindProductPageQueryVariables>) => {
-  const [cart, { addToCart, loading }] = useCart()
+  const [, { addToCart, loading }] = useCart()
 
   return (
     <div className="container mt-16 flex flex-col gap-8 md:grid md:grid-cols-3">
       <div className="col-span-2 w-full overflow-clip">
         <img
-          src="https://placehold.co/800"
+          src={product.image ?? 'https://placehold.co/800'}
           className="w-full rounded-md"
           alt={product.name}
         />

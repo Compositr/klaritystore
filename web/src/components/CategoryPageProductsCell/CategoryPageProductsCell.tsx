@@ -41,6 +41,7 @@ export const QUERY: TypedDocumentNode<
         createdAt
         name
         price
+        image
       }
     }
   }
