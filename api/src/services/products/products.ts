@@ -16,7 +16,7 @@ export const product: QueryResolvers['product'] = async ({ idInt }) => {
     where: { idInt },
   })
 
-  return product.withSignedUrl()
+  return product?.withSignedUrl()
 }
 
 export const createProduct: MutationResolvers['createProduct'] = async ({
