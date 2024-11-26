@@ -102,6 +102,7 @@ const ProductForm = () => {
         description: '',
         specifications: '',
         categoryId: '',
+        image: undefined,
       })
     },
     onError: (error) => {
@@ -135,6 +136,10 @@ const ProductForm = () => {
       },
     })
   }
+
+  const [previewImageSrc, setPreviewImageSrc] = React.useState<
+    string | undefined
+  >(undefined)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8">
@@ -261,9 +266,19 @@ const ProductForm = () => {
                       placeholder="Image"
                       type="file"
                       accept="image/*"
-                      onChange={(event) =>
+                      onChange={(event) => {
                         onChange(event.target.files && event.target.files[0])
-                      }
+
+                        const fileReader = new FileReader()
+
+                        fileReader.onload = (event) => {
+                          setPreviewImageSrc(event.target?.result as string)
+                        }
+
+                        const image = form.getValues().image
+                        if (image)
+                          fileReader.readAsDataURL(form.getValues().image)
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -288,6 +303,7 @@ const ProductForm = () => {
                 idInt: 1,
                 name: form.getValues().name ?? 'Product Name',
                 price: form.getValues().price ?? 0,
+                image: previewImageSrc,
               }}
             />
           </div>
