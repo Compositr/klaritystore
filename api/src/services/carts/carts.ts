@@ -62,16 +62,13 @@ export const Cart: CartRelationResolvers = {
 }
 
 export const CartItem: CartItemRelationResolvers = {
-  product: (_obj, { root }) => {
-    return db.cartItem
-      .findUnique({
-        where: {
-          productId_cartId: {
-            cartId: root?.cartId,
-            productId: root?.productId,
-          },
-        },
-      })
-      .product()
+  product: async (_obj, { root }) => {
+    const product = await db.product.findUnique({
+      where: {
+        idInt: root?.productId,
+      },
+    })
+
+    return product.withSignedUrl()
   },
 }
