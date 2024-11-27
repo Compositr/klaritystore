@@ -11,6 +11,7 @@ import type {
 } from '@redwoodjs/web'
 
 import useCart from 'src/hooks/useCart'
+import { useToast } from 'src/hooks/useToast'
 
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
 import NotFound from '../NotFound/NotFound'
@@ -86,6 +87,8 @@ export const Failure = ({
 export const Success = ({
   product,
 }: CellSuccessProps<FindProductPageQuery, FindProductPageQueryVariables>) => {
+  const { toast } = useToast()
+
   const [, { addToCart, loading }] = useCart()
 
   return (
@@ -114,6 +117,9 @@ export const Success = ({
             disabled={loading}
             onClick={() => {
               addToCart(product.idInt)
+              toast({
+                title: `Added ${product.name} to cart`,
+              })
             }}
           >
             {!loading && 'Add to Cart'}
