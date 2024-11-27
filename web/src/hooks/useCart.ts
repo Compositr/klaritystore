@@ -121,11 +121,21 @@ const useCart = (): UseCart => {
     // Wait until query is no longer loading
     if (queryLoading) return
 
-    // Create cart if no cart exists
-    if (!storedCartId && !data?.myCart) {
+    // If:
+    //  there is no stored cart id
+    //  or there is a stored cart id but no cart data
+    if ((!storedCartId || (storedCartId && !data?.cart)) && !data?.myCart) {
+      // Create cart if no cart exists
       createCart().then((res) => setStoredCartId(res.data.createCart.idString))
     }
-  }, [queryLoading, storedCartId, data?.myCart, createCart, setStoredCartId])
+  }, [
+    queryLoading,
+    storedCartId,
+    data?.cart,
+    data?.myCart,
+    createCart,
+    setStoredCartId,
+  ])
 
   const [addToCart, addToCartState] = useMutation<
     AddToCart,
