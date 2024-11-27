@@ -6,13 +6,21 @@ import {
   Pencil,
   Trash,
 } from 'lucide-react'
-import type { ProductsQuery, ProductsQueryVariables } from 'types/graphql'
+import {
+  DeleteProductMutation,
+  DeleteProductMutationVariables,
+  type ProductsQuery,
+  type ProductsQueryVariables,
+} from 'types/graphql'
 
-import type {
-  CellSuccessProps,
-  CellFailureProps,
-  TypedDocumentNode,
+import {
+  type CellSuccessProps,
+  type CellFailureProps,
+  type TypedDocumentNode,
+  useMutation,
 } from '@redwoodjs/web'
+
+import { useToast } from 'src/hooks/useToast'
 
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
 import {
@@ -69,6 +77,15 @@ export const Empty = () => <div>Empty</div>
 export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
+
+const DELETE_PRODUCT_MUTATION = gql`
+  mutation DeleteProductMutation($id: Int!) {
+    deleteProduct(idInt: $id) {
+      idInt
+      name
+    }
+  }
+`
 
 const columns: ColumnDef<
   CellSuccessProps<ProductsQuery>['products'][number]
@@ -157,10 +174,37 @@ const columns: ColumnDef<
     id: 'actions',
     // called Cell so useState does not complain it is not in a component
     cell: function Cell({ row }) {
+      const { toast } = useToast()
+
       const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
       const [modifyDialogOpen, setModifyDialogOpen] = React.useState(false)
 
       const product = row.original
+
+      const [deleteMut, { client, loading: deleteMutLoading }] = useMutation<
+        DeleteProductMutation,
+        DeleteProductMutationVariables
+      >(DELETE_PRODUCT_MUTATION, {
+        onCompleted: () => {
+          setDeleteDialogOpen(false)
+          setModifyDialogOpen(false)
+          toast({
+            title: 'Product deleted',
+            description: `${product.name} was deleted successfully.`,
+          })
+
+          client.refetchQueries({
+            include: [QUERY],
+          })
+        },
+        onError: (error) => {
+          toast({
+            title: 'Error deleting product',
+            description: error.message,
+            variant: 'destructive',
+          })
+        },
+      })
 
       return (
         <>
@@ -223,8 +267,15 @@ const columns: ColumnDef<
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction asChild>
-                  {/* TODO: Implement Deleting */}
-                  <Button variant="destructive">Delete</Button>
+                  <Button
+                    disabled={deleteMutLoading}
+                    variant="destructive"
+                    onClick={async () => {
+                      deleteMut({ variables: { id: product.idInt } })
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
