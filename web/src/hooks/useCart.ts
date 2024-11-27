@@ -24,6 +24,7 @@ const QUERY = gql`
           idInt
           name
           price
+          image
         }
       }
     }
@@ -36,6 +37,7 @@ const QUERY = gql`
           idInt
           name
           price
+          image
         }
       }
     }
@@ -100,6 +102,9 @@ export type UseCart = [
   GetCart['cart'],
   {
     loading: boolean
+
+    cartItems: number
+    cartTotal: number
 
     addToCart: (productId: number, quantity?: number) => void
     addToCartState: MutationOperationResult<AddToCart, AddToCartVariables>['1']
@@ -215,10 +220,21 @@ const useCart = (): UseCart => {
     })
   }
 
+  const cartItems =
+    cart?.items.reduce((acc, item) => acc + item.quantity, 0) ?? 0
+  const cartTotal = cart?.items.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
+    0
+  )
+
   return [
     cart,
     {
       loading,
+
+      cartItems,
+      cartTotal,
+
       addToCart,
       addToCartState,
 
