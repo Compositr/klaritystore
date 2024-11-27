@@ -2,7 +2,6 @@ import type {
   MutationResolvers,
   CartItemRelationResolvers,
   QueryResolvers,
-  CartRelationResolvers,
 } from 'types/graphql'
 
 import { validate } from '@redwoodjs/api'
@@ -73,6 +72,9 @@ export const createCartItem: MutationResolvers['createCartItem'] = async ({
       cartId: input.cartId,
       quantity: input.quantity,
     },
+    include: {
+      cart: true,
+    },
   })
 }
 
@@ -136,12 +138,12 @@ export const deleteCartItem: MutationResolvers['deleteCartItem'] = async ({
   if (!cart.items.some((item) => item.productId === productId))
     throw new ValidationError('Product not found in that cart')
 
-  return db.cartItem.delete({
+  return await db.cartItem.delete({
     where: { productId_cartId: { productId, cartId } },
   })
 }
 
-export const CartItems: CartItemRelationResolvers = {
+export const CartItem: CartItemRelationResolvers = {
   cart: (_obj, { root }) => {
     return db.cart.findUnique({
       where: { idString: root?.cartId },
@@ -151,15 +153,5 @@ export const CartItems: CartItemRelationResolvers = {
     return db.product.findUnique({
       where: { idInt: root?.productId },
     })
-  },
-}
-
-// FIXME: createCartItem.cart is still nullish
-export const Cart: CartRelationResolvers = {
-  user: (_obj, { root }) => {
-    return db.cart.findUnique({ where: { idString: root?.userId } }).user()
-  },
-  items: (_obj, { root }) => {
-    return db.cart.findUnique({ where: { idString: root?.idString } }).items()
   },
 }
