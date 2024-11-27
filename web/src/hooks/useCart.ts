@@ -185,7 +185,10 @@ const useCart = (): UseCart => {
   })
 
   const loading =
-    queryLoading || addToCartState.loading || createCartState.loading
+    queryLoading ||
+    addToCartState.loading ||
+    createCartState.loading ||
+    modifyQuantityState.loading
   const cart = data?.myCart ?? data?.cart
   const cartId = cart?.idString
 
