@@ -5,6 +5,8 @@ import {
   CreateCartVariables,
   GetCart,
   GetCartVariables,
+  ModifyCartItem,
+  ModifyCartItemVariables,
 } from 'types/graphql'
 
 import { useMutation, useQuery } from '@redwoodjs/web'
@@ -64,6 +66,26 @@ const ADD_MUTATION = gql`
   }
 `
 
+const MOD_MUTATION = gql`
+  mutation ModifyCartItem($cartId: String!, $productId: Int!, $quantity: Int!) {
+    updateCartItem(
+      cartId: $cartId
+      productId: $productId
+      input: { quantity: $quantity }
+    ) {
+      cart {
+        idString
+      }
+
+      product {
+        idInt
+      }
+
+      quantity
+    }
+  }
+`
+
 /**
  * Tuple describing the return type for the useCart hook
  *
@@ -81,6 +103,12 @@ export type UseCart = [
 
     addToCart: (productId: number, quantity?: number) => void
     addToCartState: MutationOperationResult<AddToCart, AddToCartVariables>['1']
+
+    modifyQuantity: (productId: number, quantity: number) => void
+    modifyQuantityState: MutationOperationResult<
+      ModifyCartItem,
+      ModifyCartItemVariables
+    >['1']
   },
 ]
 
@@ -137,10 +165,17 @@ const useCart = (): UseCart => {
     setStoredCartId,
   ])
 
-  const [addToCart, addToCartState] = useMutation<
+  const [addToCartMut, addToCartState] = useMutation<
     AddToCart,
     AddToCartVariables
   >(ADD_MUTATION, {
+    onCompleted: reactToChanges,
+  })
+
+  const [modifyQuantityMut, modifyQuantityState] = useMutation<
+    ModifyCartItem,
+    ModifyCartItemVariables
+  >(MOD_MUTATION, {
     onCompleted: reactToChanges,
   })
 
@@ -149,25 +184,46 @@ const useCart = (): UseCart => {
   const cart = data?.myCart ?? data?.cart
   const cartId = cart?.idString
 
+  const addToCart = (productId: number, quantity = 1) => {
+    const existingItem = cart?.items.find((i) => i.product.idInt === productId)
+    if (existingItem) {
+      modifyQuantity(productId, existingItem.quantity + quantity)
+      return
+    }
+
+    addToCartMut({
+      variables: {
+        cartId,
+        productId,
+        quantity,
+      },
+    })
+  }
+
+  const modifyQuantity = (productId: number, quantity: number) => {
+    if (!cart.items.some((i) => i.product.idInt === productId)) {
+      addToCart(productId, quantity)
+      return
+    }
+
+    modifyQuantityMut({
+      variables: {
+        cartId,
+        productId,
+        quantity,
+      },
+    })
+  }
+
   return [
     cart,
     {
       loading,
-      addToCart: (productId: number, quantity = 1) => {
-        if (cart.items.some((i) => i.product.idInt === productId)) {
-          // Product in cart already, add quantity
-          return
-        }
-
-        addToCart({
-          variables: {
-            cartId,
-            productId,
-            quantity,
-          },
-        })
-      },
+      addToCart,
       addToCartState,
+
+      modifyQuantity,
+      modifyQuantityState,
     },
   ]
 }
