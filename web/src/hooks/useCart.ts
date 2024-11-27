@@ -149,8 +149,6 @@ const useCart = (): UseCart => {
   const cart = data?.myCart ?? data?.cart
   const cartId = cart?.idString
 
-  console.log(data)
-
   return [
     cart,
     {
