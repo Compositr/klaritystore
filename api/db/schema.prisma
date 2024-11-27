@@ -92,7 +92,7 @@ model Cart {
 
 // Represents an item in someone's cart
 model CartItem {
-  product   Product @relation(fields: [productId], references: [idInt])
+  product   Product @relation(fields: [productId], references: [idInt], onDelete: Cascade)
   productId Int
 
   cart   Cart   @relation(fields: [cartId], references: [idString], onDelete: Cascade)
