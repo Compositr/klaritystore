@@ -5,3 +5,4 @@ dbauth
 klarity
 numericality
 shadcn
+redwoodjs
