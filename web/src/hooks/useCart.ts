@@ -230,8 +230,18 @@ const useCart = (): UseCart => {
     0
   )
 
+  // Sort is in place (so we have to slice) - stable sort
+  const items =
+    cart?.items
+      .slice()
+      .sort((a, b) => a.product.name.localeCompare(b.product.name)) ?? []
+
   return [
-    cart,
+    {
+      // Override items with sorted items (cart obj is frozen)
+      ...cart,
+      items,
+    },
     {
       loading,
 
