@@ -13,8 +13,8 @@ import { useMutation, useQuery } from '@redwoodjs/web'
 import { useToast } from 'src/hooks/useToast'
 import { zImage } from 'src/lib/zod'
 
+import LoadingButton from '../LoadingButton/LoadingButton'
 import ProductCard from '../ProductCard/ProductCard'
-import { Button } from '../ui/Button'
 import {
   Form,
   FormControl,
@@ -285,10 +285,14 @@ const ProductForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={loading}>
-              {!loading && 'Create Product'}
-              {loading && 'Creating Product...'}
-            </Button>
+            <LoadingButton
+              type="submit"
+              className="w-full"
+              loading={loading}
+              loadingMessage="Creating Product..."
+            >
+              Create Product
+            </LoadingButton>
           </form>
         </Form>
       </div>

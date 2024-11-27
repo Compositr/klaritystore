@@ -14,6 +14,7 @@ import useCart from 'src/hooks/useCart'
 import { useToast } from 'src/hooks/useToast'
 
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
+import LoadingButton from '../LoadingButton/LoadingButton'
 import NotFound from '../NotFound/NotFound'
 import { Button } from '../ui/Button'
 import { Skeleton } from '../ui/Skeleton'
@@ -111,10 +112,10 @@ export const Success = ({
           </H3>
         </div>
         <div className="mt-4 w-full">
-          {/* TODO: Dedicated "asChild'd" LoaderButton */}
-          <Button
+          <LoadingButton
+            loading={loading}
+            loadingMessage="Processing..."
             className="w-full"
-            disabled={loading}
             onClick={() => {
               addToCart(product.idInt)
               toast({
@@ -122,14 +123,8 @@ export const Success = ({
               })
             }}
           >
-            {!loading && 'Add to Cart'}
-            {loading && (
-              <>
-                <Loader className="animate-spin" />
-                Processing...
-              </>
-            )}
-          </Button>
+            Add to Cart
+          </LoadingButton>
         </div>
         <div className="relative mt-8 rounded-xl border p-6">
           <div className="absolute -top-4 left-4 bg-background px-2">

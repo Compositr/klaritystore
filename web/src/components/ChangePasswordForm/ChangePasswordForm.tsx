@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -8,7 +7,7 @@ import { useMutation } from '@redwoodjs/web'
 import { useAuth } from 'src/auth'
 import { useToast } from 'src/hooks/useToast'
 
-import { Button } from '../ui/Button'
+import LoadingButton from '../LoadingButton/LoadingButton'
 import {
   Form,
   FormControl,
@@ -141,15 +140,13 @@ const ChangePasswordForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={loading}>
-          {!loading && 'Change Password'}
-          {loading && (
-            <>
-              <Loader className="animate-spin" />
-              <span>Updating...</span>
-            </>
-          )}
-        </Button>
+        <LoadingButton
+          type="submit"
+          loading={loading}
+          loadingMessage="Updating..."
+        >
+          Change Password
+        </LoadingButton>
       </form>
     </Form>
   )

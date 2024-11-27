@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { UpdateMeMutation, UpdateMeMutationVariables } from 'types/graphql'
 import { z } from 'zod'
@@ -9,7 +8,7 @@ import { useMutation } from '@redwoodjs/web'
 import { useAuth } from 'src/auth'
 import { useToast } from 'src/hooks/useToast'
 
-import { Button } from '../ui/Button'
+import LoadingButton from '../LoadingButton/LoadingButton'
 import {
   Form,
   FormControl,
@@ -139,15 +138,13 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading}>
-          {!loading && 'Save Changes'}
-          {loading && (
-            <>
-              <Loader className="animate-spin" />
-              <span>Saving...</span>
-            </>
-          )}
-        </Button>
+        <LoadingButton
+          loading={loading}
+          type="submit"
+          loadingMessage="Saving..."
+        >
+          Save Changes
+        </LoadingButton>
       </form>
     </Form>
   )
