@@ -126,10 +126,10 @@ model Order {
 }
 
 model OrderItem {
-  product   Product @relation(fields: [productId], references: [idInt])
+  product   Product @relation(fields: [productId], references: [idInt], onDelete: Cascade)
   productId Int
 
-  order   Order  @relation(fields: [orderId], references: [idString])
+  order   Order  @relation(fields: [orderId], references: [idString], onDelete: Cascade)
   orderId String
 
   quantity Int
