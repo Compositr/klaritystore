@@ -82,6 +82,11 @@ const formSchema = z.object({
 
   shippingFirst: z.string().min(1, 'Please enter your first name'),
   shippingLast: z.string().min(1, 'Please enter your last name'),
+  shipping1: z.string().min(1, 'Please enter your address'),
+  shipping2: z
+    .string()
+    .min(1, 'Please enter a valid second address line')
+    .optional(),
 })
 
 const CheckoutForm = () => {
@@ -245,7 +250,71 @@ const CheckoutForm = () => {
         </div>
 
         <H3>Shipping</H3>
-        <div className="grid grid-cols-2 gap-2"></div>
+        <div className="grid grid-cols-2 gap-2">
+          <FormField
+            control={form.control}
+            name="shippingFirst"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input
+                    id="shippingFirst"
+                    type="text"
+                    placeholder=""
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="shippingLast"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input
+                    id="shippingLast"
+                    type="text"
+                    placeholder=""
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="shipping1"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address Line 1</FormLabel>
+              <FormControl>
+                <Input id="shipping1" type="text" placeholder="" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="shipping2"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address Line 2</FormLabel>
+              <FormDescription>Optional</FormDescription>
+              <FormControl>
+                <Input id="shipping2" type="text" placeholder="" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit" className="mt-4 w-full">
           Pay
         </Button>
