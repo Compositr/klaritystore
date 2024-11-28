@@ -9,6 +9,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { useAuth } from 'src/auth'
 
 import CartButton from '../CartButton/CartButton'
+import NavLinksCell from '../NavLinksCell'
 import { Button } from '../ui/Button'
 import {
   DropdownMenu,
@@ -18,13 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/DropdownMenu'
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '../ui/NavigationMenu'
+import { NavigationMenu, NavigationMenuList } from '../ui/NavigationMenu'
 import { Popover, PopoverContent } from '../ui/Popover'
 import { Separator } from '../ui/Separator'
 import {
@@ -37,26 +32,11 @@ import {
 import Large from '../ui/typography/Large'
 import Small from '../ui/typography/Small'
 
-type LinksArray = Array<{
-  label: string
-  to: string
-}>
-
 const NavHeader = () => {
   const [popoverOpen, setPopoverOpen] = React.useState(false)
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
 
   const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()
-  // Placed in here so routes can be called
-  const links: LinksArray = [
-    { label: 'Diaries', to: routes.category({ idString: 'diaries' }) },
-    { label: 'Notepads', to: routes.category({ idString: 'notepads' }) },
-    {
-      label: 'Pens and Pencils',
-      to: routes.category({ idString: 'pens-and-pencils' }),
-    },
-  ]
-
   return (
     <header className="w-full border-b border-b-border pb-2 pt-4">
       <div className="container flex items-center justify-between gap-1 pb-2">
@@ -151,15 +131,7 @@ const NavHeader = () => {
                 <SheetTitle>MENU</SheetTitle>
               </SheetHeader>
               <div className="flex h-full flex-col gap-4 py-8">
-                {links.map((link) => (
-                  <React.Fragment key={link.to}>
-                    {/* TODO: Close popover on nav */}
-                    <Large>
-                      <Link to={link.to}>{link.label}</Link>
-                    </Large>
-                    <Separator className="last:hidden" />
-                  </React.Fragment>
-                ))}
+                <NavLinksCell mobile />
                 <div className="flex flex-1 flex-wrap items-end justify-center gap-4">
                   {!isAuthenticated && (
                     <>
@@ -202,16 +174,7 @@ const NavHeader = () => {
       <nav className="container flex w-full justify-center">
         <NavigationMenu className="hidden lg:block">
           <NavigationMenuList>
-            {links.map((link) => (
-              <NavigationMenuItem key={`mob-${link.to}`}>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  asChild
-                >
-                  <Link to={link.to}>{link.label}</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
+            <NavLinksCell />
           </NavigationMenuList>
         </NavigationMenu>
       </nav>
