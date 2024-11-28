@@ -76,7 +76,9 @@ const formSchema = z.object({
     message: 'Please choose a valid month',
   }),
   cardExpiryYear: z.coerce
-    .number()
+    .number({
+      message: 'Please enter a valid year',
+    })
     .min(new Date().getFullYear(), 'Card expiry year must be in the future'),
   cardCvc: z.string().min(3, 'Please enter the card CVC'),
 
