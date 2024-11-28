@@ -10,10 +10,12 @@ export const categories: QueryResolvers['categories'] = () => {
   return db.category.findMany()
 }
 
-export const category: QueryResolvers['category'] = ({ idString }) => {
-  return db.category.findUnique({
+export const category: QueryResolvers['category'] = async ({ idString }) => {
+  const category = await db.category.findUnique({
     where: { idString },
   })
+
+  return category?.withSignedUrl()
 }
 
 export const createCategory: MutationResolvers['createCategory'] = ({
@@ -48,6 +50,6 @@ export const Category: CategoryRelationResolvers = {
       where: { categoryId: root.idString },
     })
 
-    return products.map((p) => p.withSignedUrl())
+    return products?.map((p) => p?.withSignedUrl())
   },
 }

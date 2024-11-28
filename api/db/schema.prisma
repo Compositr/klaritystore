@@ -18,6 +18,8 @@ model Category {
   idString    String @id
   name        String
   description String
+  // Images processed by Redwood's experimental uploads system
+  image       String?
 
   products Product[]
 
@@ -33,7 +35,7 @@ model Product {
   // Images processed by Redwood's experimental uploads system
   image          String?
 
-  category   Category @relation(fields: [categoryId], references: [idString])
+  category   Category @relation(fields: [categoryId], references: [idString], onDelete: Cascade, onUpdate: Cascade)
   categoryId String
 
   cartItems  CartItem[]

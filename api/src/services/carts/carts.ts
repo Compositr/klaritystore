@@ -69,6 +69,6 @@ export const CartItem: CartItemRelationResolvers = {
       },
     })
 
-    return product.withSignedUrl()
+    return product?.withSignedUrl()
   },
 }

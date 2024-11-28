@@ -8,6 +8,9 @@ const uploadsConfig = createUploadsConfig({
   product: {
     fields: ['image'],
   },
+  category: {
+    fields: ['image'],
+  },
 })
 
 export const fsStorage = new FileSystemStorage({

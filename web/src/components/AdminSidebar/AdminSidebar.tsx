@@ -1,4 +1,4 @@
-import { Home, ShoppingBag, Store, Tags } from 'lucide-react'
+import { Boxes, Home, ShoppingBag, Store, Tags } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 
@@ -53,6 +53,11 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               icon: ShoppingBag,
               title: 'Orders',
               url: routes.adminOrders(),
+            },
+            {
+              icon: Boxes,
+              title: 'Categories',
+              url: routes.adminCategories(),
             },
           ]}
         />

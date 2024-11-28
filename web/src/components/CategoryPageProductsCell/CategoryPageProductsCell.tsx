@@ -36,6 +36,7 @@ export const QUERY: TypedDocumentNode<
       idString
       name
       description
+      image
       products {
         idInt
         createdAt
@@ -140,8 +141,10 @@ export const Success = ({
         </div>
         <div className="flex-1">
           <img
-            src="https://placehold.co/400x200?text=placeholder"
-            className="w-full"
+            src={
+              category.image ?? 'https://placehold.co/400x200?text=placeholder'
+            }
+            className="w-full object-cover"
             alt="Diaries"
           />
         </div>

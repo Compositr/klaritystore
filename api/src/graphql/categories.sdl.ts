@@ -3,6 +3,7 @@ export const schema = gql`
     idString: String!
     name: String!
     description: String!
+    image: String
     products: [Product]!
     createdAt: DateTime!
   }
