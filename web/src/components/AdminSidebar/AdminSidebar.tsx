@@ -45,14 +45,14 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               items: [
                 {
                   title: 'New Product',
-                  url: '/admin/products/new',
+                  url: routes.adminNewProduct(),
                 },
               ],
             },
             {
               icon: ShoppingBag,
               title: 'Orders',
-              url: '/admin/orders',
+              url: routes.adminOrders(),
             },
           ]}
         />

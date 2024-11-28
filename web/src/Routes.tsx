@@ -37,6 +37,7 @@ const Routes = () => {
         <Route path="/admin" page={AdminPage} name="admin" />
         <Route path="/admin/products" page={AdminProductsPage} name="adminProducts" />
         <Route path="/admin/products/new" page={AdminNewProductPage} name="adminNewProduct" />
+        <Route path="/admin/orders" page={AdminOrdersPage} name="adminOrders" />
       </PrivateSet>
 
       <Route notfound page={NotFoundPage} />
