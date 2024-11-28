@@ -58,6 +58,12 @@ const AdminSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               icon: Boxes,
               title: 'Categories',
               url: routes.adminCategories(),
+              items: [
+                {
+                  title: 'New Category',
+                  url: routes.adminNewCategory(),
+                },
+              ],
             },
           ]}
         />

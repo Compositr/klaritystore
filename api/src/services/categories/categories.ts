@@ -5,9 +5,12 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { saveFiles } from 'src/lib/uploads'
 
-export const categories: QueryResolvers['categories'] = () => {
-  return db.category.findMany()
+export const categories: QueryResolvers['categories'] = async () => {
+  const categories = await db.category.findMany()
+
+  return categories?.map((c) => c.withSignedUrl())
 }
 
 export const category: QueryResolvers['category'] = async ({ idString }) => {
@@ -18,11 +21,12 @@ export const category: QueryResolvers['category'] = async ({ idString }) => {
   return category?.withSignedUrl()
 }
 
-export const createCategory: MutationResolvers['createCategory'] = ({
+export const createCategory: MutationResolvers['createCategory'] = async ({
   input,
 }) => {
+  const processed = await saveFiles.forCategory(input)
   return db.category.create({
-    data: input,
+    data: processed,
   })
 }
 

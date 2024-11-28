@@ -17,6 +17,7 @@ export const schema = gql`
     idString: String!
     name: String!
     description: String!
+    image: File
   }
 
   input UpdateCategoryInput {

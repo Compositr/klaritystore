@@ -52,7 +52,11 @@ export const deleteProduct: MutationResolvers['deleteProduct'] = ({
 }
 
 export const Product: ProductRelationResolvers = {
-  category: (_obj, { root }) => {
-    return db.product.findUnique({ where: { idInt: root?.idInt } }).category()
+  category: async (_obj, { root }) => {
+    const category = await db.category.findUnique({
+      where: { idString: root?.categoryId },
+    })
+
+    return category?.withSignedUrl()
   },
 }

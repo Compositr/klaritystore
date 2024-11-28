@@ -122,7 +122,6 @@ const ProductForm = () => {
   const loading = mutLoading || queryLoading
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('values', values)
     await mutate({
       variables: {
         input: {
