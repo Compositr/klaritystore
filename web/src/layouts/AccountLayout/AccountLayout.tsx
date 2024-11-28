@@ -1,4 +1,4 @@
-import { LucideIcon, User, ShieldEllipsis, CreditCard } from 'lucide-react'
+import { LucideIcon, User, ShieldEllipsis } from 'lucide-react'
 
 import { Link, Redirect, routes, useMatch } from '@redwoodjs/router'
 
@@ -27,11 +27,6 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
       icon: ShieldEllipsis,
       label: 'Password and Security',
       to: routes.accountSecurity(),
-    },
-    {
-      icon: CreditCard,
-      label: 'Billing',
-      to: routes.accountBilling(),
     },
   ]
 

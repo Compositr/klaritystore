@@ -30,7 +30,6 @@ const Routes = () => {
           <Route path="/account" redirect="account" />
           <Route path="/account/profile" page={AccountProfilePage} name="account" />
           <Route path="/account/security" page={AccountSecurityPage} name="accountSecurity" />
-          <Route path="/account/billing" page={AccountBillingPage} name="accountBilling" />
         </PrivateSet>
       </Set>
 

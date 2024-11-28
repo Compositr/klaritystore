@@ -1,11 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCard, Lock } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { CreateOrderInput, CreateOrderVariables } from 'types/graphql'
 import { z } from 'zod'
 
-import { useAuth } from 'src/auth'
+import { navigate, routes } from '@redwoodjs/router'
+import { useMutation } from '@redwoodjs/web'
 
-import { Button } from '../ui/Button'
+import { useAuth } from 'src/auth'
+import useLocalStorage from 'src/hooks/useLocalStorage'
+import { useToast } from 'src/hooks/useToast'
+
+import LoadingButton from '../LoadingButton/LoadingButton'
 import {
   Form,
   FormControl,
@@ -26,6 +32,8 @@ import {
 import H3 from '../ui/typography/H3'
 import Small from '../ui/typography/Small'
 
+// This cannot be generated because of strong typing (as const needed for zod enums)
+// otherwise you'd just slice the first three letters from the long months and uppercase them
 const SHORT_MONTHS = [
   'JAN',
   'FEB',
@@ -85,24 +93,81 @@ const formSchema = z.object({
   shippingFirst: z.string().min(1, 'Please enter your first name'),
   shippingLast: z.string().min(1, 'Please enter your last name'),
   shipping1: z.string().min(1, 'Please enter your address'),
-  shipping2: z
-    .string()
-    .min(1, 'Please enter a valid second address line')
-    .optional(),
+  shipping2: z.string().optional(),
 })
 
+const MUTATION = gql`
+  mutation CreateOrder($cartId: String!, $input: CreateOrderInput!) {
+    createOrder(cartId: $cartId, input: $input) {
+      idString
+      email
+      shippingFirst
+      shippingLast
+      shippingAddress
+      shippingAddressLine2
+    }
+  }
+`
+
 const CheckoutForm = () => {
+  const [cartId, setCart] = useLocalStorage('cartId', '')
+  const { toast } = useToast()
   const { currentUser } = useAuth()
+
+  const [createOrder, { loading }] = useMutation<
+    CreateOrderInput,
+    CreateOrderVariables
+  >(MUTATION, {
+    onCompleted: () => {
+      toast({
+        title: 'Order submitted successfully',
+        description: 'Your order is now being processed',
+      })
+
+      // Reset cart state
+      setCart('')
+
+      // Send to home
+      navigate(routes.home())
+    },
+
+    onError: (err) => {
+      toast({
+        title: 'Sorry! Something went wrong submitting your order',
+        description: err.message,
+      })
+    },
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: currentUser?.email ?? '',
+      cardExpiryMonth: SHORT_MONTHS[0],
+      cardExpiryYear: new Date().getFullYear(),
+      cardCvc: '',
+      shippingFirst: currentUser?.firstName ?? '',
+      shippingLast: currentUser?.lastName ?? '',
+      shipping1: '',
+      shipping2: '',
+      cardName: '',
+      cardNumber: '',
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    await createOrder({
+      variables: {
+        cartId,
+        input: {
+          email: values.email,
+          shippingFirst: values.shippingFirst,
+          shippingLast: values.shippingLast,
+          shippingAddress: values.shipping1,
+          shippingAddressLine2: values.shipping2,
+        },
+      },
+    })
   }
 
   return (
@@ -317,9 +382,9 @@ const CheckoutForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-4 w-full">
+        <LoadingButton loading={loading} type="submit" className="mt-4 w-full">
           Pay
-        </Button>
+        </LoadingButton>
       </form>
     </Form>
   )
