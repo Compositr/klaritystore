@@ -41,7 +41,7 @@ const CartButton = () => {
         <div className="my-4 flex h-full flex-col gap-2">
           <ScrollArea className="px-6">
             <div className="mb-4 flex">
-              <div className="grid auto-rows-fr gap-2">
+              <div className="grid w-full auto-rows-fr gap-2">
                 {cart?.items.map((item) => (
                   <div
                     className="grid grid-cols-3 gap-4 rounded-md border p-4"
