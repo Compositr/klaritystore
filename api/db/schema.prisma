@@ -114,7 +114,7 @@ model Order {
   idString String @id
 
   user   User?   @relation(fields: [userId], references: [idString])
-  userId String? @unique
+  userId String?
 
   email                String
   shippingFirst        String
