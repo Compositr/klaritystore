@@ -1,5 +1,7 @@
 import { Loader, Minus, Plus, ShoppingCart, X } from 'lucide-react'
 
+import { Link, routes } from '@redwoodjs/router'
+
 import useCart from 'src/hooks/useCart'
 
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat'
@@ -135,9 +137,9 @@ const CartButton = () => {
             </div>
             <Separator className="my-2" />
             <Muted>Shipping is calculated at checkout</Muted>
-            <LoadingButton loading={loading} className="mt-4 w-full">
-              Checkout
-            </LoadingButton>
+            <Button asChild className="mt-4 w-full">
+              <Link to={routes.checkout()}>Checkout</Link>
+            </Button>
           </div>
         </div>
       </SheetContent>

@@ -17,6 +17,8 @@ import StoreLayout from './layouts/StoreLayout/StoreLayout'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Route path="/checkout" page={CheckoutPage} name="checkout" />
+
       <Route path="/login" page={AuthPage} name="login" prerender />
 
       <Set wrap={StoreLayout}>
