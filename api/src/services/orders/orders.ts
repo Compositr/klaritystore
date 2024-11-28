@@ -3,6 +3,7 @@ import type {
   QueryResolvers,
   MutationResolvers,
   OrderRelationResolvers,
+  OrderItemRelationResolvers,
 } from 'types/graphql'
 
 import { validate } from '@redwoodjs/api'
@@ -88,5 +89,11 @@ export const Order: OrderRelationResolvers = {
   },
   items: (_obj, { root }) => {
     return db.order.findUnique({ where: { idString: root?.idString } }).items()
+  },
+}
+
+export const OrderItem: OrderItemRelationResolvers = {
+  product: (_obj, { root }) => {
+    return db.product.findUnique({ where: { idInt: root.productId } })
   },
 }
