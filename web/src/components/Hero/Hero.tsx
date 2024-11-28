@@ -1,3 +1,5 @@
+import heroImgSrc from 'assets/img/hero.jpeg'
+
 import { Link, routes } from '@redwoodjs/router'
 
 import { Button } from '../ui/Button'
@@ -9,8 +11,7 @@ const Hero = () => {
       {/* Image container */}
       <div className="absolute inset-0">
         <img
-          // TODO: Replace this image with a real image
-          src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1440"
+          src={heroImgSrc}
           alt="Background"
           className="h-full w-full object-cover object-center"
         />
